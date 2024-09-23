@@ -9,10 +9,18 @@ export default function MediumLanding() {
 
   return (
     <div className="flex flex-col min-h-screen bg-gradient-to-br from-zinc-700 to-zinc-500">
-      {/* Header with Company Name */}
-      <div className="font-serif bg-gray-850 shadow-md py-4">
+      <div
+        style={{
+          backgroundImage: `url('/02-01.jpg')`,
+          backgroundSize: "cover",
+          backgroundPosition: "top",
+        }}
+        className="font-serif  shadow-2xl py-3"
+      >
         <div className="max-w-7xl mx-auto text-center">
-          <h1 className="text-5xl font-bold text-slate-900 tracking-wide">MEDIUM</h1>
+          <h1 className="text-5xl font-semibold text-gray-900 tracking-wide">
+            MEDIUM
+          </h1>
         </div>
       </div>
 
@@ -22,7 +30,7 @@ export default function MediumLanding() {
             <span className="block">Human</span>
             <span className="block lg:whitespace-nowrap">stories & ideas</span>
           </h1>
-          <p className="text-lg md:text-xl font-sans font-medium mb-8 text-gray-300">
+          <p className=" md:text-xl font-sans font-medium mb-8 text-gray-300">
             A place to read, write, and deepen your understanding
           </p>
           <button
@@ -45,6 +53,3 @@ export default function MediumLanding() {
     </div>
   );
 }
-
-
-
