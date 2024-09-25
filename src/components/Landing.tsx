@@ -1,14 +1,21 @@
 import { useNavigate } from "react-router-dom";
+import { BlogCard } from "./BlogCard";
+import { useBlogs } from "../hooks";
+import { BlogSkeleton } from "./BlogSkeleton";
+
+const objectDate = new Date();
 
 export default function MediumLanding() {
   const navigate = useNavigate();
+  const { loading, blogs } = useBlogs();
 
   const handleNavigation = () => {
     navigate("/signin");
   };
+  const featuredBlogs = blogs?.slice(0, 2) || [];
 
   return (
-    <div className="flex flex-col min-h-screen bg-gradient-to-br from-zinc-700 to-zinc-500">
+    <div className="flex flex-col min-h-screen bg-gradient-to-br from-zinc-800 to-zinc-400">
       <div
         style={{
           backgroundImage: `url('/02-01.jpg')`,
@@ -49,6 +56,40 @@ export default function MediumLanding() {
             backgroundPosition: "center",
           }}
         />
+      </div>
+      <div className="m-20">
+        <h2 className="text-4xl font-medium font-serif underline text-white flex justify-center  mb-4">
+          Trending Blogs
+        </h2>
+        <div
+          style={{
+            backgroundImage: `url('/02-01.jpg')`,
+            backgroundSize: "cover",
+            backgroundPosition: "top",
+          }}
+          className="  space-x-4 text-stone-900  bg-stone-300 font-bold border rounded-lg "
+        >
+          {loading ? (
+            <p className="text-gray-300">
+              {" "}
+              <BlogSkeleton />
+              <BlogSkeleton />
+            </p>
+          ) : (
+            featuredBlogs.map((blog) => (
+              <BlogCard
+                key={blog.id}
+                id={blog.id}
+                authorName={blog.name || "Anonymous"}
+                title={blog.title}
+                content={blog.content}
+                publishedDate={`${objectDate.toLocaleString("default", {
+                  month: "long",
+                })} ${objectDate.getDate()} ${objectDate.getFullYear()}`}
+              />
+            ))
+          )}
+        </div>
       </div>
     </div>
   );
