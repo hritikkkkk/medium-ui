@@ -1,6 +1,6 @@
 export const Quote = () => {
   return (
-    <div className="bg-stone-300 h-screen flex justify-center flex-col">
+    <div className="bg-stone-300 h-screen flex justify-center flex-col shadow-2xl ">
       <div className="flex justify-center">
         <div className="max-w-lg text-center">
           <div className="text-2xl font-bold text-slate-800">
@@ -9,7 +9,7 @@ export const Quote = () => {
             pleasures have a beginning and an end, and so the wise man does not
             delight in them."
           </div>
-          <div className="max-w-md text-lg font-light text-slate-500  mt-4">
+          <div className="max-w-md text-lg font-bold font-sans  text-slate-900  mt-4">
             The Bhagavad Gita
           </div>
         </div>

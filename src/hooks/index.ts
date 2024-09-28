@@ -7,7 +7,9 @@ export interface Blog {
   title: string;
   id: number;
   name: string;
-  
+  author: {
+    name: string;
+  };
 }
 
 export const useBlog = ({ id }: { id: string }) => {
@@ -22,7 +24,7 @@ export const useBlog = ({ id }: { id: string }) => {
         },
       })
       .then((response) => {
-        setBlog(response.data.blog);
+        setBlog(response.data);
         setLoading(false);
       });
   }, [id]);
@@ -43,8 +45,8 @@ export const useBlogs = () => {
           Authorization: localStorage.getItem("token"),
         },
       })
-        .then((response) => {
-         console.log(response)
+      .then((response) => {
+        console.log(response);
         setBlogs(response.data.posts);
         setLoading(false);
       });
