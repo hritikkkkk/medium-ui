@@ -6,7 +6,7 @@ import { faPenToSquare } from "@fortawesome/free-regular-svg-icons";
 export const Appbar = () => {
   return (
     <div className="border-b flex bg-stone-300 shadow-2xl  justify-between items-center py-2 px-4   sticky top-0 z-50">
-      <Link to={"/blog"} className="flex flex-between  cursor-pointer ">
+      <Link to={"/"} className="flex flex-between  cursor-pointer ">
         <FontAwesomeIcon
           icon={faMedium}
           style={{ color: "#1f2937" }}

@@ -57,15 +57,15 @@ export const Blogs = () => {
       <Appbar />
       <div className="flex flex-grow bg-stone-300 overflow-hidden mt-1">
         <div
-          className="overflow-y-auto scrollbar-hide "
+          className="overflow-y-auto scrollbar-hide  "
           style={{ width: `${leftWidth}%` }}
         >
-          <div className="pr-4 bg-stone-300">
+          <div className="pr-4 bg-stone-300 ">
             {blogs.map((blog) => (
               <div
                 key={blog.id}
                 onClick={() => setSelectedBlog(blog)}
-                className="cursor-pointer"
+                className="cursor-pointer max-w-screen-lg rounded-full "
               >
                 <BlogCard
                   id={blog.id}
