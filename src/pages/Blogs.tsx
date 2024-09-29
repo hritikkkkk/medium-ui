@@ -5,6 +5,7 @@ import { BlogSkeleton } from "../components/BlogSkeleton";
 import { FullBlog } from "../components/FullBlog";
 import { useBlogs } from "../hooks";
 
+
 const objectDate = new Date();
 
 export const Blogs = () => {
