@@ -1,25 +1,17 @@
 import { useNavigate } from "react-router-dom";
-import { BlogCard } from "./BlogCard";
-import { useBlogs } from "../hooks";
-import { BlogSkeleton } from "./BlogSkeleton";
 import {
   faGithub,
   faLinkedin,
   faMedium,
+  faMediumM,
   faTwitter,
 } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare } from "@fortawesome/free-regular-svg-icons";
 import { useEffect, useState } from "react";
 
-const objectDate = new Date();
-
 export default function MediumLanding() {
   const navigate = useNavigate();
-  const { loading, blogs } = useBlogs();
-
- 
-  const featuredBlogs = blogs?.slice(0, 3) || [];
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
 
   useEffect(() => {
@@ -39,7 +31,6 @@ export default function MediumLanding() {
     setIsAuthenticated(false);
     navigate("/signin");
   };
-
 
   return (
     <div className="flex flex-col min-h-screen bg-stone-300 ">
@@ -105,61 +96,61 @@ export default function MediumLanding() {
         </button>
       </div>
 
-      {/* Main Content */}
-      <div className="flex-grow flex flex-col md:flex-row max-w-7xl mx-auto px-8 py-12 space-y-8 md:space-y-0 md:space-x-12">
-      {isAuthenticated ? (
-        // Authenticated Section
-        <>
-          <div className="flex-1 flex flex-col justify-center items-center">
-            <h1 className="text-4xl text-red-900 shadow-xl rounded-xl font-serif font-bold mb-6">
-              Trending Blogs
-            </h1>
-            <p className="text-2xl text-gray-500 font-sans font-medium">
-              Explore new ideas and insights from passionate writers...
+      <section className="py-16 px-7">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between">
+          {/* Left Section: Why Choose Us Title */}
+          <div className="md:w-1/3 mb-12 md:mb-0 text-left">
+            <h2 className="text-4xl text-slate-900 font-bold leading-snug mb-6">
+              Why Choose Us?
+            </h2>
+            <p className="text-lg font-sans text-gray-600">
+              Our platform is designed to offer you a seamless reading and
+              writing experience. Here’s what makes us stand out:
             </p>
           </div>
 
-          {/* Right Section: Featured Blogs */}
-          <div className="flex-1">
-            <div className="bg-stone-300 text-stone-900 font-bold border rounded-2xl p-6 shadow-2xl hover:transition-all">
-              {loading ? (
-                <div>
-                  <BlogSkeleton />
-                  <BlogSkeleton />
-                </div>
-              ) : (
-                featuredBlogs.map((blog) => (
-                  <BlogCard
-                    key={blog.id}
-                    id={blog.id}
-                    authorName={blog.author.name || "Anonymous"}
-                    title={blog.title}
-                    content={blog.content}
-                    publishedDate={`${objectDate.toLocaleString("default", {
-                      month: "long",
-                    })} ${objectDate.getDate()} ${objectDate.getFullYear()}`}
-                  />
-                ))
-              )}
-            </div>
+          {/* Right Section: Feature Cards */}
+          <div className="md:w-2/3 flex flex-col gap-6">
+            <FeatureCard
+              title="Personalized Feeds"
+              description="Get content tailored to your interests, curated by our intelligent algorithms."
+              icon="📜"
+            />
+            <FeatureCard
+              title="Write Your Own Blog"
+              description="Share your ideas with the world using our powerful blogging tools."
+              icon="✍️"
+            />
+            <FeatureCard
+              title="Join the Conversation"
+              description="Engage with writers and thinkers through meaningful conversations."
+              icon="🚀"
+            />
           </div>
-        </>
-      ) : (
-        <>
-          <div className="flex-1 flex flex-col justify-center items-center">
-            <div className="text-center">
-              <h1 className="text-4xl text-slate-900 shadow-xl rounded-xl font-serif font-bold mb-6">
-                Welcome to Medium!
-              </h1>
-              <p className="text-2xl text-gray-500 font-sans font-medium">
-                Sign in to explore trending blogs and more...
-              </p>
-            </div>
-          </div>
-        </>
-      )}
-    </div>
+        </div>
+      </section>
 
+      <section className="bg-gradient-to-r from-blue-600 to-purple-600 text-white py-4">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between px-6">
+          <div className="text-center md:text-left">
+            <h1 className="text-5xl font-bold leading-tight mb-2">
+              Welcome to Your Storytelling Hub
+            </h1>
+            <p className="text-lg mb-4">
+              Join a community of thinkers and creators sharing unique ideas.
+            </p>
+            <button
+              onClick={() => navigate(isAuthenticated ? "/blog" : "/signup")}
+              className="bg-white text-blue-600 hover:bg-blue-800 hover:text-white text-lg font-medium px-6 py-3 rounded-full shadow-md"
+            >
+              {isAuthenticated ? "Explore Blogs" : "Get Started for Free"}
+            </button>
+          </div>
+          <div className="mt-12 md:mt-0">
+            <FontAwesomeIcon icon={faMediumM} className="fa-10x" />
+          </div>
+        </div>
+      </section>
       <footer className="text-gray-500 py-2 mt-auto">
         <div className="max-w-7xl mx-auto px-4 flex justify-between items-center">
           <div className="space-x-6 text-2xl ">
@@ -196,3 +187,21 @@ export default function MediumLanding() {
     </div>
   );
 }
+
+const FeatureCard = ({
+  title,
+  description,
+  icon,
+}: {
+  title: string;
+  description: string;
+  icon: string;
+}) => (
+  <div className=" bg-stone-100 border border-gray-200 rounded-xl shadow-lg p-2 text-center transform transition duration-300 hover:scale-105 hover:shadow-xl">
+    <div className="text-4xl mb-4 text-gray-700">{icon}</div>
+    <h3 className="text-2xl font-sans font-semibold mb-3 text-gray-900">
+      {title}
+    </h3>
+    <p className="text-lg text-gray-600">{description}</p>
+  </div>
+);
