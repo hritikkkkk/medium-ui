@@ -12,7 +12,11 @@ import {
   BookOpen,
   PenTool,
   Mail,
+  Activity,
+  FileText,
+  Users,
 } from "lucide-react";
+import StatisticCard from "./ui/statisticCard";
 
 export default function PremiumMediumLanding() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -92,7 +96,11 @@ export default function PremiumMediumLanding() {
                 <Button onClick={() => handleNavigation("/write")}>
                   Write
                 </Button>
-                <Button variant="outline" onClick={handleLogout}>
+                <Button
+                  variant="outline"
+                  className="hover:bg-red-700"
+                  onClick={handleLogout}
+                >
                   Logout
                 </Button>
               </div>
@@ -225,6 +233,33 @@ export default function PremiumMediumLanding() {
                 </div>
               </TabsContent>
             </Tabs>
+          </div>
+        </section>
+        <section className="py-16 bg-white">
+          <div className="container mx-auto px-4 text-center">
+            <h2 className="text-3xl font-bold mb-6">
+              Join a Growing Community
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <StatisticCard
+                  icon={<Users size={40} />}
+                value="10,000+"
+                title="Active Writers"
+                description="Writers & readers active this month"
+              />
+              <StatisticCard
+                title="Total Articles"
+                value="14,323"
+                description="Published across all categories"
+                icon={<FileText size={40} />}
+              />
+              <StatisticCard
+               title="Avg. Read Time"
+               value="4 min"
+               description="Average time spent on articles"
+               icon={<Activity size={40} />}
+              />
+            </div>
           </div>
         </section>
 
