@@ -17,11 +17,15 @@ import {
   Users,
 } from "lucide-react";
 import StatisticCard from "./ui/statisticCard";
+import { faMediumM } from "@fortawesome/free-brands-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useNavigate } from "react-router-dom";
 
 export default function PremiumMediumLanding() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [email, setEmail] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -242,7 +246,7 @@ export default function PremiumMediumLanding() {
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               <StatisticCard
-                  icon={<Users size={40} />}
+                icon={<Users size={40} />}
                 value="10,000+"
                 title="Active Writers"
                 description="Writers & readers active this month"
@@ -254,10 +258,10 @@ export default function PremiumMediumLanding() {
                 icon={<FileText size={40} />}
               />
               <StatisticCard
-               title="Avg. Read Time"
-               value="4 min"
-               description="Average time spent on articles"
-               icon={<Activity size={40} />}
+                title="Avg. Read Time"
+                value="4 min"
+                description="Average time spent on articles"
+                icon={<Activity size={40} />}
               />
             </div>
           </div>
@@ -295,27 +299,24 @@ export default function PremiumMediumLanding() {
             </div>
           </div>
         </section>
-        <section className="bg-gradient-to-r from-blue-600 to-purple-600 text-white py-16">
-          <div className="container mx-auto px-4 flex flex-col md:flex-row items-center justify-between">
-            <div className="text-center md:text-left mb-8 md:mb-0">
-              <h2 className="text-4xl md:text-5xl font-bold leading-tight mb-4">
-                Your Ideas, Amplified
-              </h2>
-              <p className="text-xl mb-6">
-                Write, share, and connect with a global audience of millions.
+        <section className="bg-gradient-to-r from-blue-600 to-purple-600 text-white py-12">
+          <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between px-6">
+            <div className="text-center md:text-left">
+              <h1 className="text-5xl font-bold leading-tight mb-2">
+                Welcome to Your Storytelling Hub
+              </h1>
+              <p className="text-lg mb-4">
+                Join a community of thinkers and creators sharing unique ideas.
               </p>
-              <Button
-                size="lg"
-                variant="outline"
-                onClick={() =>
-                  handleNavigation(isAuthenticated ? "/write" : "/signup")
-                }
+              <button
+                onClick={() => navigate(isAuthenticated ? "/blog" : "/signup")}
+                className="bg-white text-blue-600 hover:bg-blue-800 hover:text-white text-lg font-medium px-6 py-3 rounded-full shadow-md"
               >
-                {isAuthenticated ? "Start Writing" : "Join Medium"}
-              </Button>
+                {isAuthenticated ? "Explore Blogs" : "Get Started for Free"}
+              </button>
             </div>
-            <div className="mt-8 md:mt-0">
-              <PenTool size={180} className="text-white opacity-50" />
+            <div className="mt-12 md:mt-0">
+              <FontAwesomeIcon icon={faMediumM} className="fa-10x" />
             </div>
           </div>
         </section>
