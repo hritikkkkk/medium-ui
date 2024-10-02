@@ -21,6 +21,7 @@ import CommunitySection from "./community";
 import { motion, AnimatePresence } from "framer-motion";
 import { useSpring, animated, config } from "react-spring";
 import { useInView } from "react-intersection-observer";
+import Comparison from "./comparsion";
 
 export default function PremiumMediumLanding() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -68,6 +69,7 @@ export default function PremiumMediumLanding() {
       <main>
         <HeroSection handleNavigation={handleNavigation} />
         <FeaturesSection />
+        <Comparison />
         <TrendingSection />
         <CommunitySection />
         <NewsletterSection
@@ -439,7 +441,10 @@ const NewsletterSection: React.FC<{
   });
 
   return (
-    <section ref={ref} className="py-16 bg-gradient-to-b from-gray-200 to-white">
+    <section
+      ref={ref}
+      className="py-16 bg-gradient-to-b from-gray-200 to-white"
+    >
       <animated.div
         style={containerAnimation}
         className="container mx-auto px-4"
@@ -513,7 +518,7 @@ const CTASection: React.FC<{
           </Button>
         </div>
         <div className="mt-12 md:mt-0">
-          <FontAwesomeIcon icon={faMediumM}   className="fa-10x" />
+          <FontAwesomeIcon icon={faMediumM} className="fa-10x" />
         </div>
       </animated.div>
     </section>
