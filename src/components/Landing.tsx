@@ -36,6 +36,7 @@ export default function PremiumMediumLanding() {
 
   const handleNavigation = (path: string) => {
     console.log(`Navigating to: ${path}`);
+    navigate(path);
   };
 
   const handleLogout = () => {
@@ -86,7 +87,7 @@ export default function PremiumMediumLanding() {
   );
 }
 
-const Header: React.FC<{
+export const Header: React.FC<{
   isAuthenticated: boolean;
   searchQuery: string;
   setSearchQuery: (query: string) => void;
