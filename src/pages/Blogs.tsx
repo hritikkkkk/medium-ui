@@ -3,21 +3,16 @@ import { Appbar } from "../components/Appbar";
 import { BlogCard } from "../components/BlogCard";
 import { BlogSkeleton } from "../components/BlogSkeleton";
 import { FullBlog } from "../components/FullBlog";
-import { useBlogs } from "../hooks";
-
+import { Blog, useBlogs } from "../hooks";
 
 const objectDate = new Date();
 
 export const Blogs = () => {
   const { loading, blogs } = useBlogs();
-  const [selectedBlog, setSelectedBlog] = useState(null);
+  const [selectedBlog, setSelectedBlog] = useState<Blog | null>(null);
   const [leftWidth, setLeftWidth] = useState(50);
 
-  const handleMouseDown = useCallback((e: React.MouseEvent) => {
-    e.preventDefault();
-    document.addEventListener("mousemove", handleMouseMove);
-    document.addEventListener("mouseup", handleMouseUp);
-  }, []);
+
 
   const handleMouseMove = useCallback((e: MouseEvent) => {
     const newLeftWidth = (e.clientX / window.innerWidth) * 100;
@@ -27,7 +22,13 @@ export const Blogs = () => {
   const handleMouseUp = useCallback(() => {
     document.removeEventListener("mousemove", handleMouseMove);
     document.removeEventListener("mouseup", handleMouseUp);
-  }, []);
+  }, [handleMouseMove]);
+
+  const handleMouseDown = useCallback((e: React.MouseEvent) => {
+    e.preventDefault();
+    document.addEventListener("mousemove", handleMouseMove);
+    document.addEventListener("mouseup", handleMouseUp);
+  }, [handleMouseMove, handleMouseUp]);
 
   useEffect(() => {
     return () => {
