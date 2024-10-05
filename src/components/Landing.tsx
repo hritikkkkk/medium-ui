@@ -154,7 +154,7 @@ export const Header: React.FC<{
           </form>
           {isAuthenticated ? (
             <div className="flex space-x-2">
-              <Button onClick={() => handleNavigation("/write")}>Write</Button>
+              <Button onClick={() => handleNavigation("/publish")}>Write</Button>
               <Button
                 variant="outline"
                 className="hover:bg-red-700"
