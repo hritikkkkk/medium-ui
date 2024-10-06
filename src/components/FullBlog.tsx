@@ -7,7 +7,13 @@ export const FullBlog = ({ blog }: { blog: Blog }) => {
         <div className="px-10 py-10 ">
           <div className="text-5xl font-bold font-serif">{blog.title}</div>
           <div className="text-gray-600 font-sans pt-2">
-            Post on 2nd December 2023
+            {blog.createdAt
+              ? new Date(blog.createdAt).toLocaleDateString("en-US", {
+                  year: "numeric",
+                  month: "short",
+                  day: "numeric",
+                })
+              : "N/A"}
           </div>
           <div className="pt-4  font-sans">{blog.content}</div>
         </div>

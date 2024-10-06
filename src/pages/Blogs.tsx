@@ -5,14 +5,10 @@ import { BlogSkeleton } from "../components/BlogSkeleton";
 import { FullBlog } from "../components/FullBlog";
 import { Blog, useBlogs } from "../hooks";
 
-const objectDate = new Date();
-
 export const Blogs = () => {
   const { loading, blogs } = useBlogs();
   const [selectedBlog, setSelectedBlog] = useState<Blog | null>(null);
   const [leftWidth, setLeftWidth] = useState(50);
-
-
 
   const handleMouseMove = useCallback((e: MouseEvent) => {
     const newLeftWidth = (e.clientX / window.innerWidth) * 100;
@@ -24,11 +20,14 @@ export const Blogs = () => {
     document.removeEventListener("mouseup", handleMouseUp);
   }, [handleMouseMove]);
 
-  const handleMouseDown = useCallback((e: React.MouseEvent) => {
-    e.preventDefault();
-    document.addEventListener("mousemove", handleMouseMove);
-    document.addEventListener("mouseup", handleMouseUp);
-  }, [handleMouseMove, handleMouseUp]);
+  const handleMouseDown = useCallback(
+    (e: React.MouseEvent) => {
+      e.preventDefault();
+      document.addEventListener("mousemove", handleMouseMove);
+      document.addEventListener("mouseup", handleMouseUp);
+    },
+    [handleMouseMove, handleMouseUp]
+  );
 
   useEffect(() => {
     return () => {
@@ -74,9 +73,14 @@ export const Blogs = () => {
                   authorName={blog.name || "Anonymous"}
                   title={blog.title}
                   content={blog.content}
-                  publishedDate={`${objectDate.toLocaleString("default", {
-                    month: "long",
-                  })} ${objectDate.getDate()} ${objectDate.getFullYear()}`}
+                  publishedDate={new Date(blog.createdAt).toLocaleDateString(
+                    "en-US",
+                    {
+                      year: "numeric",
+                      month: "short",
+                      day: "numeric",
+                    }
+                  )}
                 />
               </div>
             ))}
