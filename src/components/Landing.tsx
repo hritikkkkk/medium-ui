@@ -128,9 +128,6 @@ export const Header: React.FC<{
           <Button variant="ghost" onClick={() => handleNavigation("/")}>
             Home
           </Button>
-          <Button variant="ghost" onClick={() => handleNavigation("/about")}>
-            About
-          </Button>
           <Button
             variant="ghost"
             onClick={() => handleNavigation("/membership")}
@@ -224,7 +221,7 @@ const HeroSection: React.FC<{ handleNavigation: (path: string) => void }> = ({
         Join a community of curious minds, thought leaders, and storytellers.
       </motion.p>
       <motion.div variants={itemAnimation}>
-        <Button size="lg" onClick={() => handleNavigation("/start")}>
+        <Button size="lg" onClick={() => handleNavigation("/blog")}>
           Start Reading
         </Button>
       </motion.div>

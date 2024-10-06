@@ -42,6 +42,9 @@ interface Article {
   authorId: string;
   createdAt?: string;
 }
+interface ArticleResponse {
+  post: Article;
+}
 
 export const PublishPage: React.FC = () => {
   const [title, setTitle] = useState<string>("");
@@ -55,6 +58,14 @@ export const PublishPage: React.FC = () => {
   useEffect(() => {
     fetchPublishedArticles();
   }, []);
+
+  const sortArticlesDescending = (articles: Article[]) => {
+    return articles.sort((a, b) => {
+      const dateA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
+      const dateB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
+      return dateB - dateA;
+    });
+  };
 
   const fetchPublishedArticles = async () => {
     setIsLoading(true);
@@ -78,12 +89,17 @@ export const PublishPage: React.FC = () => {
   const handlePublish = async () => {
     setIsPublishing(true);
     try {
-      const response = await axios.post<Article>(
+      const response = await axios.post<ArticleResponse>(
         `${BACKEND_URL}/api/v1/blog`,
         { title, content },
         { headers: { Authorization: localStorage.getItem("token") || "" } }
       );
-      setPublishedArticles((prevArticles) => [...prevArticles, response.data]);
+      const newArticle = response.data.post;
+      setPublishedArticles((prevArticles) => {
+        const updatedArticles = [...prevArticles, newArticle];
+        const sortedArticles = sortArticlesDescending(updatedArticles);
+        return sortedArticles;
+      });
       setTitle("");
       setContent("");
       toast.success("Article published successfully!");
