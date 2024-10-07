@@ -151,7 +151,9 @@ export const Header: React.FC<{
           </form>
           {isAuthenticated ? (
             <div className="flex space-x-2">
-              <Button onClick={() => handleNavigation("/publish")}>Write</Button>
+              <Button onClick={() => handleNavigation("/publish")}>
+                Write
+              </Button>
               <Button
                 variant="outline"
                 className="hover:bg-red-700"
@@ -590,13 +592,22 @@ const Footer: React.FC = () => (
         <div>
           <h3 className="text-lg font-semibold mb-4">Follow Us</h3>
           <div className="flex space-x-4">
-            <a href="#" className="hover:text-gray-300 transition-colors">
+            <a
+              href="https://github.com/hritikkkkk"
+              className="hover:text-gray-300 transition-colors"
+            >
               <Github />
             </a>
-            <a href="#" className="hover:text-gray-300 transition-colors">
+            <a
+              href="https://x.com/hritikkk_27"
+              className="hover:text-gray-300 transition-colors"
+            >
               <Twitter />
             </a>
-            <a href="#" className="hover:text-gray-300 transition-colors">
+            <a
+              href="https://www.linkedin.com/in/hritik-kumar-366734304/"
+              className="hover:text-gray-300 transition-colors"
+            >
               <Linkedin />
             </a>
           </div>
