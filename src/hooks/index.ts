@@ -8,6 +8,9 @@ export interface Blog {
   id: number;
   name: string;
   createdAt: string;
+  author: {
+    name: string;
+  };
 }
 
 export const useBlog = ({ id }: { id: string }) => {

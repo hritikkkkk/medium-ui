@@ -34,7 +34,11 @@ export default function Quote(): React.ReactElement {
 
   useEffect(() => {
     fetchQuote();
-    const interval = setInterval(fetchQuote, 30000);
+    const interval = setInterval(() => {
+      if (document.visibilityState === "visible") {
+        fetchQuote();
+      }
+    }, 100000);
     return () => clearInterval(interval);
   }, [fetchQuote]);
 
@@ -91,7 +95,7 @@ export default function Quote(): React.ReactElement {
           aria-label="Get new quote"
           disabled={isLoading}
         >
-          {isLoading ? "Loading..." : "New Quote"}
+          {isLoading ? "Quote..." : "New Quote"}
         </button>
       </div>
     </div>

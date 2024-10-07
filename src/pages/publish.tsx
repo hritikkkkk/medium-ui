@@ -130,7 +130,9 @@ export const PublishPage: React.FC = () => {
     <div className="min-h-screen bg-gradient-to-br from-purple-50 to-indigo-100">
       <header className="border-b  shadow-sm  ">
         <div className="max-w-5xl mx-auto px-4 py-6 flex items-center justify-between ">
-          <h1 className="text-3xl font-bold text-indigo-900">Medium</h1>
+          <h1 className="text-3xl font-bold text-indigo-900">
+            <a href="/">Medium</a>
+          </h1>
           <div className="flex items-center space-x-4">
             <Button
               onClick={() => setShowSidebar(!showSidebar)}
