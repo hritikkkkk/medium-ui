@@ -21,11 +21,8 @@ export const Auth = ({ type }: { type: "signup" | "signin" }) => {
         `${BACKEND_URL}/api/v1/user/${type === "signup" ? "signup" : "signin"}`,
         postInputs
       );
-      console.log(response.data.error)
-
       const jwt = response.data;
-      console.log(jwt);
-      localStorage.setItem("token", jwt);
+      localStorage.setItem("token", `Bearer ${jwt}`);
       toast.success("Login successful!")
       navigate("/blog");
     } catch (e) {
