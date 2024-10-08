@@ -34,7 +34,6 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { Textarea } from "@/components/ui/textarea";
 
 interface Article {
   id: string;
@@ -243,7 +242,7 @@ export const PublishPage: React.FC = () => {
                 </button>
               ))}
             </div>
-            <Textarea
+            <textarea
               placeholder="Tell your story..."
               value={content}
               onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
