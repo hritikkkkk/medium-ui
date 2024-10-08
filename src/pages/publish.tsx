@@ -228,7 +228,9 @@ export const PublishPage: React.FC = () => {
               type="text"
               placeholder="Title"
               value={title}
-              onChange={(e) => setTitle(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setTitle(e.target.value)
+              }
               className="text-4xl font-semibold border-none placeholder:text-gray-400 focus:ring-0 focus:outline-none w-full mb-4"
             />
             <div className="my-4 flex space-x-2">
