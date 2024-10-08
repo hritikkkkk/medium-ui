@@ -156,7 +156,7 @@ export const Header: React.FC<{
               </Button>
               <Button
                 variant="outline"
-                className="hover:bg-red-700"
+                className="hover:bg-red-700 hover:text-white"
                 onClick={handleLogout}
               >
                 Logout

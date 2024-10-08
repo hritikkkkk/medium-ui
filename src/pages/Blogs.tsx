@@ -1,72 +1,50 @@
-import { useState, useCallback, useEffect } from "react";
+import React from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import { Appbar } from "../components/Appbar";
 import { BlogCard } from "../components/BlogCard";
-import { BlogSkeleton } from "../components/BlogSkeleton";
-import { FullBlog } from "../components/FullBlog";
-import { Blog, useBlogs } from "../hooks";
+import { useBlogs } from "../hooks";
+import { Skeleton } from "@/components/ui/skeleton";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
-export const Blogs = () => {
+export const Blogs: React.FC = () => {
   const { loading, blogs } = useBlogs();
-  const [selectedBlog, setSelectedBlog] = useState<Blog | null>(null);
-  const [leftWidth, setLeftWidth] = useState(50);
-
-  const handleMouseMove = useCallback((e: MouseEvent) => {
-    const newLeftWidth = (e.clientX / window.innerWidth) * 100;
-    setLeftWidth(Math.max(20, Math.min(newLeftWidth, 80)));
-  }, []);
-
-  const handleMouseUp = useCallback(() => {
-    document.removeEventListener("mousemove", handleMouseMove);
-    document.removeEventListener("mouseup", handleMouseUp);
-  }, [handleMouseMove]);
-
-  const handleMouseDown = useCallback(
-    (e: React.MouseEvent) => {
-      e.preventDefault();
-      document.addEventListener("mousemove", handleMouseMove);
-      document.addEventListener("mouseup", handleMouseUp);
-    },
-    [handleMouseMove, handleMouseUp]
-  );
-
-  useEffect(() => {
-    return () => {
-      document.removeEventListener("mousemove", handleMouseMove);
-      document.removeEventListener("mouseup", handleMouseUp);
-    };
-  }, [handleMouseMove, handleMouseUp]);
+  const navigate = useNavigate();
 
   if (loading) {
     return (
-      <div>
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
         <Appbar />
-        <div className="flex justify-start m-2">
-          <div>
-            <BlogSkeleton />
-            <BlogSkeleton />
-            <BlogSkeleton />
-            <BlogSkeleton />
-            <BlogSkeleton />
+        <div className="container mx-auto px-4 py-8">
+          <div className="space-y-4">
+            {[...Array(5)].map((_, index) => (
+              <Skeleton key={index} className="h-24 w-full rounded-lg" />
+            ))}
           </div>
         </div>
       </div>
     );
   }
 
+  const handleBlogClick = (blogId: string) => {
+    navigate(`/blog/${blogId}`);
+  };
+
   return (
-    <div className="flex flex-col h-screen shadow-2xl ">
+    <div className="flex flex-col min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
       <Appbar />
-      <div className="flex flex-grow bg-stone-300 overflow-hidden mt-1">
-        <div
-          className="overflow-y-auto scrollbar-hide  "
-          style={{ width: `${leftWidth}%` }}
-        >
-          <div className="pr-4 bg-stone-300 ">
-            {blogs.map((blog) => (
-              <div
+      <main className="flex-grow container mx-auto px-4 py-8 flex justify-center">
+        <ScrollArea className="h-[calc(100vh-6rem)]">
+          <AnimatePresence>
+            {blogs.map((blog, index) => (
+              <motion.div
                 key={blog.id}
-                onClick={() => setSelectedBlog(blog)}
-                className="cursor-pointer max-w-screen-lg rounded-full "
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.3, delay: index * 0.1 }}
+                onClick={() => handleBlogClick(blog.id)}
+                className="cursor-pointer mb-4"
               >
                 <BlogCard
                   id={blog.id}
@@ -82,27 +60,11 @@ export const Blogs = () => {
                     }
                   )}
                 />
-              </div>
+              </motion.div>
             ))}
-          </div>
-        </div>
-        <div
-          className="w-1 cursor-col-resize transition-colors bg-gray-400 hover:bg-gray-500"
-          onMouseDown={handleMouseDown}
-        />
-        <div
-          className="overflow-y-auto flex-grow scrollbar-hide"
-          style={{ width: `${100 - leftWidth}%` }}
-        >
-          {selectedBlog ? (
-            <FullBlog blog={selectedBlog} />
-          ) : (
-            <div className="text-gray-500 text-center p-4">
-              Select a blog to view the full content
-            </div>
-          )}
-        </div>
-      </div>
+          </AnimatePresence>
+        </ScrollArea>
+      </main>
     </div>
   );
 };

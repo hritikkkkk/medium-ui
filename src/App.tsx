@@ -6,6 +6,7 @@ import Landing from "./components/Landing";
 import { Membership } from "./pages/membership";
 import { PublishPage } from "./pages/publish";
 import { Blogs } from "./pages/Blogs";
+import { FullBlogPage } from "./pages/fullBlog";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path="/blog" element={<Blogs />} />
           <Route path="/membership" element={<Membership />} />
           <Route path="/publish" element={<PublishPage />} />
+          <Route path="blog/:id" element={<FullBlogPage />} />
         </Routes>
       </BrowserRouter>
       <Toaster />
