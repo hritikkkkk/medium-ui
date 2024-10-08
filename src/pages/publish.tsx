@@ -246,7 +246,9 @@ export const PublishPage: React.FC = () => {
             <Textarea
               placeholder="Tell your story..."
               value={content}
-              onChange={(e) => setContent(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+                setContent(e.target.value)
+              }
               rows={12}
               className="w-full text-xl font-medium font-sans border-none placeholder:text-gray-400 focus:ring-0 focus:outline-none text-gray-800 focus:ring-indigo-500"
             />
