@@ -22,6 +22,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useSpring, animated, config } from "react-spring";
 import { useInView } from "react-intersection-observer";
 import Comparison from "./comparsion";
+import { Badge } from "./ui/badge";
 
 export default function PremiumMediumLanding() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -210,6 +211,13 @@ const HeroSection: React.FC<{ handleNavigation: (path: string) => void }> = ({
       variants={heroAnimation}
       className="py-20 text-center"
     >
+      <Badge variant="secondary" className="text-[10px] md:text-[16px]">
+        <span className="text-purple-500 font-semibold">#1</span>
+        <span className="ml-2 text-gray-700">
+          Open Source Blogging Platform
+        </span>
+      </Badge>
+
       <motion.h1
         variants={itemAnimation}
         className="text-5xl md:text-7xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-pink-600"

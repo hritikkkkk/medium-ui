@@ -1,121 +1,15 @@
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Star, ChevronLeft, ChevronRight } from "lucide-react";
+import { motion } from "framer-motion";
 import Pricing from "../components/membership";
 import { Button } from "../components/ui/button";
-
-const testimonials = [
-  {
-    name: "Alex Johnson",
-    role: "Freelance Writer",
-    content:
-      "This membership has been a game-changer for my writing career. The exclusive content and networking opportunities are unparalleled.",
-    image: "https://thispersondoesnotexist.com/",
-  },
-  {
-    name: "Samantha Lee",
-    role: "Avid Reader",
-    content:
-      "I love the curated content and ad-free experience. It's worth every penny!",
-    image: "https://thispersondoesnotexist.com/",
-  },
-  {
-    name: "Michael Chen",
-    role: "Tech Entrepreneur",
-    content:
-      "The audio versions of articles have made it possible for me to consume great content even during my busy schedule.",
-    image: "https://thispersondoesnotexist.com/",
-  },
-  {
-    name: "Emily Rodriguez",
-    role: "Digital Marketer",
-    content:
-      "The insights I've gained from the premium content have directly contributed to my career growth. Highly recommended!",
-    image: "https://thispersondoesnotexist.com/",
-  },
-  {
-    name: "David Kim",
-    role: "Student",
-    content:
-      "As a student, the affordable pricing and wealth of knowledge available have been invaluable for my studies and personal projects.",
-    image: "https://thispersondoesnotexist.com/",
-  },
-];
+import { Testimonials } from "@/components/testimonials";
 
 export const Membership = () => {
-  const [currentTestimonial, setCurrentTestimonial] = useState(0);
-
-  const nextTestimonial = () => {
-    setCurrentTestimonial((prev) => (prev + 1) % testimonials.length);
-  };
-
-  const prevTestimonial = () => {
-    setCurrentTestimonial(
-      (prev) => (prev - 1 + testimonials.length) % testimonials.length
-    );
-  };
   return (
     <div>
       {" "}
       <Pricing />
-      <section className="py-20">
-        <div className="container mx-auto px-4 bg-gradient-to-b from-white to-slate-100">
-          <h2 className="text-3xl font-semibold text-center mb-12 ">
-            What Our Members Say
-          </h2>
-          <div className="relative bg-gradient-to-br  to-slate-500 from-white rounded-xl">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={currentTestimonial}
-                className="bg-card rounded-lg p-8 shadow-lg"
-                initial={{ opacity: 0, x: 100 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -100 }}
-                transition={{ duration: 0.5 }}
-              >
-                <div className="flex items-center mb-6">
-                  <img
-                    src={testimonials[currentTestimonial].image}
-                    alt={testimonials[currentTestimonial].name}
-                    className="w-16 h-16 rounded-full mr-4"
-                  />
-                  <div>
-                    <h3 className="font-semibold">
-                      {testimonials[currentTestimonial].name}
-                    </h3>
-                    <p className="text-sm text-muted-foreground">
-                      {testimonials[currentTestimonial].role}
-                    </p>
-                  </div>
-                </div>
-                <p className="italic text-lg mb-4">
-                  &ldquo;{testimonials[currentTestimonial].content}&rdquo;
-                </p>
-                <div className="flex text-yellow-400">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-5 h-5 fill-current" />
-                  ))}
-                </div>
-              </motion.div>
-            </AnimatePresence>
-            <button
-              onClick={prevTestimonial}
-              className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-black text-white rounded-full p-2"
-              aria-label="Previous testimonial"
-            >
-              <ChevronLeft className="w-6 h-6 " />
-            </button>
-            <button
-              onClick={nextTestimonial}
-              className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-black text-white rounded-full p-2"
-              aria-label="Next testimonial"
-            >
-              <ChevronRight className="w-6 h-6" />
-            </button>
-          </div>
-        </div>
-      </section>
-      <section className="py-20 bg-zinc-200">
+      <Testimonials />
+      <section>
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-semibold text-center mb-12">
             Frequently Asked Questions
@@ -153,18 +47,18 @@ export const Membership = () => {
           </div>
         </div>
       </section>
-      <section className="py-20 bg-gradient-to-br from-white to-slate-500">
-        <div className="container mx-auto px-4 text-center">
+      <section className="py-20 ">
+        <div className="container mx-auto px-4  text-center">
           <motion.h2
-            className="text-4xl font-bold mb-8"
+            className="text-4xl font-bold py-6 relative z-20 bg-clip-text text-transparent bg-gradient-to-b from-neutral-200 to-neutral-500 "
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
-            Ready to Get Started?
+            Ready to Get <span className="text-blue-600">Started?</span>
           </motion.h2>
           <motion.p
-            className="text-xl text-muted-foreground mb-12"
+            className="text-xl text-gray-400 text-muted-foreground mb-10"
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
