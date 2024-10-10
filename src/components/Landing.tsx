@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Button } from "./ui/button";
-import { Input } from "./ui/input";
-import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
+import { motion, AnimatePresence } from "framer-motion";
+import { useSpring, animated } from "react-spring";
+import { useInView } from "react-intersection-observer";
+import { useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMediumM } from "@fortawesome/free-brands-svg-icons";
 import {
   Github,
   Linkedin,
@@ -13,16 +15,15 @@ import {
   PenTool,
   Mail,
 } from "lucide-react";
-import { faMediumM } from "@fortawesome/free-brands-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Badge } from "@/components/ui/badge";
 import FAQSection from "./faq";
 import CommunitySection from "./community";
-import { motion, AnimatePresence } from "framer-motion";
-import { useSpring, animated, config } from "react-spring";
-import { useInView } from "react-intersection-observer";
 import Comparison from "./comparsion";
-import { Badge } from "./ui/badge";
+import toast from "react-hot-toast";
 
 export default function PremiumMediumLanding() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -55,10 +56,13 @@ export default function PremiumMediumLanding() {
     e.preventDefault();
     console.log(`Subscribing email: ${email}`);
     setEmail("");
+    toast.success("email submit successfully", {
+      position: "bottom-center",
+    });
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 font-sans">
       <Header
         isAuthenticated={isAuthenticated}
         searchQuery={searchQuery}
@@ -106,7 +110,6 @@ export const Header: React.FC<{
   const headerAnimation = useSpring({
     from: { opacity: 0, transform: "translateY(-50px)" },
     to: { opacity: 1, transform: "translateY(0)" },
-    config: config.gentle,
   });
 
   return (
@@ -116,22 +119,30 @@ export const Header: React.FC<{
     >
       <div className="container mx-auto px-4 py-4 flex justify-between items-center">
         <div className="flex items-center space-x-2">
-          <svg viewBox="0 0 1043.63 592.71" className="w-10 h-10">
+          <svg
+            viewBox="0 0 1043.63 592.71"
+            className="w-10 h-10 text-[#4A0E4E] fill-current"
+          >
             <g data-name="Layer 2">
               <g data-name="Layer 1">
                 <path d="M588.67 296.36c0 163.67-131.78 296.35-294.33 296.35S0 460 0 296.36 131.78 0 294.34 0s294.33 132.69 294.33 296.36M911.56 296.36c0 154.06-65.89 279-147.17 279s-147.17-124.94-147.17-279 65.88-279 147.16-279 147.17 124.9 147.17 279M1043.63 296.36c0 138-23.17 249.94-51.76 249.94s-51.75-111.91-51.75-249.94 23.17-249.94 51.75-249.94 51.76 111.9 51.76 249.94" />
               </g>
             </g>
           </svg>
-          <span className="text-2xl font-bold">Medium</span>
+          <span className="text-2xl font-bold text-[#4A0E4E]">Medium</span>
         </div>
         <nav className="hidden md:flex space-x-4">
-          <Button variant="ghost" onClick={() => handleNavigation("/")}>
+          <Button
+            variant="ghost"
+            onClick={() => handleNavigation("/")}
+            className="text-[#4A0E4E] hover:text-[#00A896] transition-colors"
+          >
             Home
           </Button>
           <Button
             variant="ghost"
             onClick={() => handleNavigation("/membership")}
+            className="text-[#4A0E4E] hover:text-[#00A896] transition-colors"
           >
             Membership
           </Button>
@@ -141,7 +152,7 @@ export const Header: React.FC<{
             <Input
               type="search"
               placeholder="Search Medium"
-              className="pl-10 pr-4 py-2 rounded-full"
+              className="pl-10 pr-4 py-2 rounded-full bg-gray-100 focus:bg-white transition-colors"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
@@ -152,19 +163,27 @@ export const Header: React.FC<{
           </form>
           {isAuthenticated ? (
             <div className="flex space-x-2">
-              <Button onClick={() => handleNavigation("/publish")}>
+              <Button
+                onClick={() => handleNavigation("/publish")}
+                className="bg-[#4A0E4E] text-white hover:bg-[#00A896] transition-colors"
+              >
                 Write
               </Button>
               <Button
                 variant="outline"
-                className="hover:bg-red-700 hover:text-white"
+                className="text-[#4A0E4E] border-[#4A0E4E] hover:bg-[#4A0E4E] hover:text-white transition-colors"
                 onClick={handleLogout}
               >
                 Logout
               </Button>
             </div>
           ) : (
-            <Button onClick={() => handleNavigation("/signin")}>Sign In</Button>
+            <Button
+              onClick={() => handleNavigation("/signin")}
+              className="bg-[#4A0E4E] text-white hover:bg-[#00A896] transition-colors"
+            >
+              Sign In
+            </Button>
           )}
         </div>
       </div>
@@ -209,32 +228,34 @@ const HeroSection: React.FC<{ handleNavigation: (path: string) => void }> = ({
       initial="hidden"
       animate={inView ? "visible" : "hidden"}
       variants={heroAnimation}
-      className="py-20 text-center"
+      className="py-20 text-center bg-gradient-to-br from-[#4A0E4E] to-[#00A896] text-white"
     >
       <Badge
-        variant={"secondary"}
-        className=" bg-slate-200 rounded-full text-[10px] md:text-[16px]"
+        variant="secondary"
+        className="bg-white/20 text-white hover:text-white hover:bg-slate-800 rounded-full text-sm md:text-base mb-6"
       >
-        <span className="text-purple-500 font-semibold">#1</span>
-        <span className="ml-2 text-gray-700">
-          Open Source Blogging Platform
-        </span>
+        <span className="text-[#FF6B6B] font-semibold">#1</span>
+        <span className="ml-2">Open Source Blogging Platform</span>
       </Badge>
 
       <motion.h1
         variants={itemAnimation}
-        className="text-5xl md:text-7xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-pink-600"
+        className="text-5xl md:text-7xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white to-[#FF6B6B]"
       >
         Discover Stories That Matter
       </motion.h1>
       <motion.p
         variants={itemAnimation}
-        className="text-xl md:text-2xl text-gray-600 mb-8 max-w-2xl mx-auto"
+        className="text-xl md:text-2xl text-gray-200 mb-8 max-w-2xl mx-auto"
       >
         Join a community of curious minds, thought leaders, and storytellers.
       </motion.p>
       <motion.div variants={itemAnimation}>
-        <Button size="lg" onClick={() => handleNavigation("/blog")}>
+        <Button
+          size="lg"
+          onClick={() => handleNavigation("/blog")}
+          className="bg-[#FF6B6B] text-white hover:bg-[#00A896] transition-colors text-lg px-8 py-3 rounded-full"
+        >
           Start Reading
         </Button>
       </motion.div>
@@ -272,9 +293,11 @@ const FeaturesSection: React.FC = () => {
   };
 
   return (
-    <section className="py-16">
+    <section className="py-16 bg-gray-50">
       <div className="container mx-auto px-4">
-        <h2 className="text-3xl font-bold text-center mb-10">Why Medium?</h2>
+        <h2 className="text-4xl font-bold text-center mb-10 text-[#4A0E4E]">
+          Why Medium?
+        </h2>
         <motion.div
           ref={ref}
           initial="hidden"
@@ -286,21 +309,21 @@ const FeaturesSection: React.FC = () => {
             <FeatureCard
               title="Personalized Reading"
               description="Discover stories curated just for you, based on your interests and reading history."
-              icon={<BookOpen className="w-10 h-10" />}
+              icon={<BookOpen className="w-10 h-10 text-[#00A896]" />}
             />
           </motion.div>
           <motion.div variants={itemAnimation}>
             <FeatureCard
               title="Powerful Writing Tools"
               description="Create beautiful, engaging stories with our intuitive editor and rich media support."
-              icon={<PenTool className="w-10 h-10" />}
+              icon={<PenTool className="w-10 h-10 text-[#00A896]" />}
             />
           </motion.div>
           <motion.div variants={itemAnimation}>
             <FeatureCard
               title="Engaged Community"
               description="Connect with readers and writers who share your passions and perspectives."
-              icon={<TrendingUp className="w-10 h-10" />}
+              icon={<TrendingUp className="w-10 h-10 text-[#00A896]" />}
             />
           </motion.div>
         </motion.div>
@@ -315,26 +338,67 @@ const TrendingSection: React.FC = () => {
     threshold: 0.1,
   });
 
+  const [activeTab, setActiveTab] = useState("technology");
+
   const containerAnimation = useSpring({
     opacity: inView ? 1 : 0,
     transform: inView ? "translateY(0px)" : "translateY(50px)",
-    config: config.gentle,
   });
 
+  const backgroundColors: Record<string, string> = {
+    technology: "bg-gradient-to-br from-[#4A0E4E] to-[#00A896]",
+    culture: "bg-gradient-to-br from-[#FF6B6B] to-[#4A0E4E]",
+    design: "bg-gradient-to-br from-[#00A896] to-[#FF6B6B]",
+  };
+
   return (
-    <section ref={ref} className="py-16 bg-gray-50">
+    <section
+      ref={ref}
+      className={`${backgroundColors[activeTab]} transition-colors duration-500 py-16`}
+    >
       <animated.div
         style={containerAnimation}
         className="container mx-auto px-4"
       >
-        <h2 className="text-3xl font-bold text-center mb-12">
+        <h2 className="text-4xl font-bold text-center text-white mb-12">
           Trending on Medium
         </h2>
-        <Tabs defaultValue="technology">
-          <TabsList>
-            <TabsTrigger value="technology">Technology</TabsTrigger>
-            <TabsTrigger value="culture">Culture</TabsTrigger>
-            <TabsTrigger value="design">Design</TabsTrigger>
+        <Tabs
+          defaultValue="technology"
+          onValueChange={(value) => setActiveTab(value)}
+          className="w-full"
+        >
+          <TabsList className="w-full justify-center mb-8 space-x-4 bg-transparent">
+            <TabsTrigger
+              value="technology"
+              className={`py-2 px-4 rounded-full font-semibold transition duration-300 ${
+                activeTab === "technology"
+                  ? "bg-white text-[#4A0E4E]"
+                  : "text-white hover:bg-white/10"
+              }`}
+            >
+              Technology
+            </TabsTrigger>
+            <TabsTrigger
+              value="culture"
+              className={`py-2 px-4 rounded-full font-semibold transition duration-300 ${
+                activeTab === "culture"
+                  ? "bg-white text-[#FF6B6B]"
+                  : "text-white hover:bg-white/10"
+              }`}
+            >
+              Culture
+            </TabsTrigger>
+            <TabsTrigger
+              value="design"
+              className={`py-2 px-4 rounded-full font-semibold transition duration-300 ${
+                activeTab === "design"
+                  ? "bg-white text-[#00A896]"
+                  : "text-white hover:bg-white/10"
+              }`}
+            >
+              Design
+            </TabsTrigger>
           </TabsList>
 
           <AnimatePresence mode="wait">
@@ -448,23 +512,22 @@ const NewsletterSection: React.FC<{
   const containerAnimation = useSpring({
     opacity: inView ? 1 : 0,
     transform: inView ? "translateY(0px)" : "translateY(50px)",
-    config: config.gentle,
   });
 
   return (
     <section
       ref={ref}
-      className="py-16 bg-gradient-to-b from-gray-200 to-white"
+      className="py-16 bg-gradient-to-br from-[#4A0E4E] to-[#00A896] backdrop-blur-md"
     >
       <animated.div
         style={containerAnimation}
         className="container mx-auto px-4"
       >
-        <div className="max-w-3xl mx-auto text-center bg-slate-100 shadow-xl rounded-lg p-8">
-          <h2 className="text-4xl font-bold mb-4 text-gray-800">
+        <div className="max-w-3xl mx-auto text-center bg-white/10 backdrop-blur-md shadow-xl rounded-lg p-8">
+          <h2 className="text-4xl font-bold mb-4 text-white">
             Subscribe to Our Newsletter
           </h2>
-          <p className="text-lg text-gray-700 mb-6">
+          <p className="text-lg text-gray-200 mb-6">
             Get the best stories delivered straight to your inbox every week.
           </p>
           <form
@@ -476,10 +539,13 @@ const NewsletterSection: React.FC<{
               placeholder="Enter your email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="flex-grow"
+              className="flex-grow bg-white/20 text-white placeholder-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FF6B6B]"
               required
             />
-            <Button type="submit" className="flex items-center">
+            <Button
+              type="submit"
+              className="bg-[#FF6B6B] text-white hover:bg-[#00A896] transition-colors p-3 rounded-lg flex items-center justify-center"
+            >
               <Mail className="mr-2 h-4 w-4" /> Subscribe
             </Button>
           </form>
@@ -501,35 +567,34 @@ const CTASection: React.FC<{
   const containerAnimation = useSpring({
     opacity: inView ? 1 : 0,
     transform: inView ? "translateY(0px)" : "translateY(50px)",
-    config: config.gentle,
   });
 
   return (
     <section
       ref={ref}
-      className="bg-gradient-to-r from-blue-600 to-purple-600 text-white py-12"
+      className="bg-gradient-to-r from-[#4A0E4E] to-[#00A896] text-white py-16"
     >
       <animated.div
         style={containerAnimation}
         className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between px-6"
       >
         <div className="text-center md:text-left">
-          <h1 className="text-5xl font-bold leading-tight mb-2">
+          <h1 className="text-5xl font-bold leading-tight mb-4">
             Welcome to Your Storytelling Hub
           </h1>
-          <p className="text-lg mb-4">
+          <p className="text-xl mb-6">
             Join a community of thinkers and creators sharing unique ideas.
           </p>
           <Button
             onClick={() => navigate(isAuthenticated ? "/blog" : "/signup")}
             size="lg"
-            className="mt-4"
+            className="bg-[#FF6B6B] text-white hover:bg-white hover:text-[#4A0E4E] transition-colors text-lg px-8 py-3 rounded-full"
           >
             {isAuthenticated ? "Explore Blogs" : "Get Started for Free"}
           </Button>
         </div>
         <div className="mt-12 md:mt-0">
-          <FontAwesomeIcon icon={faMediumM} className="fa-10x" />
+          <FontAwesomeIcon icon={faMediumM} className="text-8xl text-white" />
         </div>
       </animated.div>
     </section>
@@ -537,24 +602,24 @@ const CTASection: React.FC<{
 };
 
 const Footer: React.FC = () => (
-  <footer className="bg-gray-900 text-white py-8">
+  <footer className="bg-[#4A0E4E] text-white py-12">
     <div className="container mx-auto px-4">
       <div className="grid md:grid-cols-4 gap-8">
         <div>
           <h3 className="text-lg font-semibold mb-4">About</h3>
           <ul className="space-y-2">
             <li>
-              <a href="#" className="hover:text-gray-300 transition-colors">
+              <a href="#" className="hover:text-[#FF6B6B] transition-colors">
                 Our Story
               </a>
             </li>
             <li>
-              <a href="#" className="hover:text-gray-300 transition-colors">
+              <a href="#" className="hover:text-[#FF6B6B] transition-colors">
                 Careers
               </a>
             </li>
             <li>
-              <a href="#" className="hover:text-gray-300 transition-colors">
+              <a href="#" className="hover:text-[#FF6B6B] transition-colors">
                 Press
               </a>
             </li>
@@ -564,17 +629,17 @@ const Footer: React.FC = () => (
           <h3 className="text-lg font-semibold mb-4">Legal</h3>
           <ul className="space-y-2">
             <li>
-              <a href="#" className="hover:text-gray-300 transition-colors">
+              <a href="#" className="hover:text-[#FF6B6B] transition-colors">
                 Terms of Service
               </a>
             </li>
             <li>
-              <a href="#" className="hover:text-gray-300 transition-colors">
+              <a href="#" className="hover:text-[#FF6B6B] transition-colors">
                 Privacy Policy
               </a>
             </li>
             <li>
-              <a href="#" className="hover:text-gray-300 transition-colors">
+              <a href="#" className="hover:text-[#FF6B6B] transition-colors">
                 Cookie Policy
               </a>
             </li>
@@ -584,17 +649,17 @@ const Footer: React.FC = () => (
           <h3 className="text-lg font-semibold mb-4">Help</h3>
           <ul className="space-y-2">
             <li>
-              <a href="#" className="hover:text-gray-300 transition-colors">
+              <a href="#" className="hover:text-[#FF6B6B] transition-colors">
                 FAQs
               </a>
             </li>
             <li>
-              <a href="#" className="hover:text-gray-300 transition-colors">
+              <a href="#" className="hover:text-[#FF6B6B] transition-colors">
                 Contact Us
               </a>
             </li>
             <li>
-              <a href="#" className="hover:text-gray-300 transition-colors">
+              <a href="#" className="hover:text-[#FF6B6B] transition-colors">
                 Support
               </a>
             </li>
@@ -605,26 +670,26 @@ const Footer: React.FC = () => (
           <div className="flex space-x-4">
             <a
               href="https://github.com/hritikkkkk"
-              className="hover:text-gray-300 transition-colors"
+              className="hover:text-[#FF6B6B] transition-colors"
             >
               <Github />
             </a>
             <a
               href="https://x.com/hritikkk_27"
-              className="hover:text-gray-300 transition-colors"
+              className="hover:text-[#FF6B6B] transition-colors"
             >
               <Twitter />
             </a>
             <a
               href="https://www.linkedin.com/in/hritik-kumar-366734304/"
-              className="hover:text-gray-300 transition-colors"
+              className="hover:text-[#FF6B6B] transition-colors"
             >
               <Linkedin />
             </a>
           </div>
         </div>
       </div>
-      <div className="mt-8 pt-4 border-t border-gray-800 text-center">
+      <div className="mt-8 pt-8 border-t border-white/20 text-center">
         <p>&copy; 2024 Medium. All rights reserved.</p>
       </div>
     </div>
@@ -636,15 +701,15 @@ const FeatureCard: React.FC<{
   description: string;
   icon: React.ReactNode;
 }> = ({ title, description, icon }) => (
-  <Card className="h-full shadow-xl  transition-transform duration-300  hover:scale-105">
+  <Card className="h-full bg-white shadow-xl transition-transform duration-300 hover:scale-105 border-none">
     <CardHeader>
-      <CardTitle className="flex items-center  space-x-2">
-        <span className="text-primary">{icon}</span>
+      <CardTitle className="flex items-center space-x-2 text-[#4A0E4E]">
+        <span className="text-[#00A896]">{icon}</span>
         <span className="font-bold">{title}</span>
       </CardTitle>
     </CardHeader>
     <CardContent>
-      <p className="text-gray-700">{description}</p>
+      <p className="text-gray-600">{description}</p>
     </CardContent>
   </Card>
 );
@@ -663,24 +728,25 @@ const ArticleCard: React.FC<{
   const cardAnimation = useSpring({
     opacity: inView ? 1 : 0,
     transform: inView ? "translateY(0px)" : "translateY(50px)",
-    config: config.gentle,
   });
 
   return (
     <animated.div ref={ref} style={cardAnimation}>
-      <Card className="h-full transition-transform duration-300 hover:scale-105">
+      <Card className="h-full bg-white shadow-lg transition-transform duration-300 hover:scale-105 overflow-hidden">
         <CardContent className="p-0">
           <img
             src={imageUrl}
             alt={title}
-            className="w-full h-40 object-cover rounded-t-lg"
+            className="w-full h-48 object-cover"
             onError={(e) =>
               ((e.target as HTMLImageElement).src =
                 "https://via.placeholder.com/400")
             }
           />
           <div className="p-4">
-            <h3 className="font-semibold text-lg mb-2">{title}</h3>
+            <h3 className="font-semibold text-lg mb-2 text-[#4A0E4E]">
+              {title}
+            </h3>
             <p className="text-sm text-gray-600">
               By {author} · {readTime}
             </p>
