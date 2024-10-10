@@ -179,8 +179,8 @@ export const PublishPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-indigo-100">
-      <header className="border-b shadow-sm">
+    <div className="min-h-screen bg-gradient-to-br  from-purple-100 to-indigo-50 text-gray-900">
+      <header className="border-b shadow-sm bg-white/100 sticky top-0 z-50">
         <div className="max-w-5xl mx-auto px-4 py-6 flex items-center justify-between">
           <h1 className="text-3xl font-bold text-indigo-900">
             <a href="/">Medium</a>
@@ -274,7 +274,7 @@ export const PublishPage: React.FC = () => {
               transition={{ type: "spring", stiffness: 300, damping: 30 }}
               className="w-80 bg-white shadow-lg fixed right-0 top-0 bottom-0 p-6 overflow-y-auto"
             >
-              <div className="flex items-center w-full mb-8 justify-between sticky top-0 z-50 bg-white/100">
+              <div className="flex items-center w-full mb-8 justify-between sticky top-0 bg-white py-4 z-10">
                 <button
                   onClick={() => setShowSidebar(false)}
                   className="text-indigo-600 hover:bg-indigo-50 rounded-full"
@@ -296,13 +296,9 @@ export const PublishPage: React.FC = () => {
                   {publishedArticles.map((article) => (
                     <motion.div
                       key={article.id}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -20 }}
-                      transition={{ duration: 0.3 }}
-                      className="mb-6 border-b pb-4"
+                      className="p-4 mb-4 bg-gray-100 hover:bg-indigo-50 transition rounded-xl cursor-pointer"
                     >
-                      <div className="flex items-center justify-between mb-2">
+                      <div className="flex items-center justify-between mb-2 ">
                         <div className="flex items-center space-x-3">
                           <div>
                             <p className="text-xs text-gray-500">
@@ -363,15 +359,14 @@ export const PublishPage: React.FC = () => {
                           </DropdownMenuContent>
                         </DropdownMenu>
                       </div>
-                      <h3
-                        className="text-lg font-semibold mb-1 cursor-pointer"
-                        onClick={() => navigateToBlogPage(article.id)}
-                      >
-                        {article.title}
-                      </h3>
-                      <p className="text-gray-600 text-sm line-clamp-2">
-                        {article.content}
-                      </p>
+                      <div onClick={() => navigateToBlogPage(article.id)}>
+                        <h3 className="text-lg font-bold mb-1  text-indigo-700">
+                          {article.title}
+                        </h3>
+                        <p className="text-gray-600 text-sm line-clamp-2">
+                          {article.content}
+                        </p>
+                      </div>
                     </motion.div>
                   ))}
                 </AnimatePresence>

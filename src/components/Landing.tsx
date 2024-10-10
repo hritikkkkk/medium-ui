@@ -211,7 +211,10 @@ const HeroSection: React.FC<{ handleNavigation: (path: string) => void }> = ({
       variants={heroAnimation}
       className="py-20 text-center"
     >
-      <Badge variant="secondary" className="text-[10px] md:text-[16px]">
+      <Badge
+        variant={"secondary"}
+        className=" bg-slate-200 rounded-full text-[10px] md:text-[16px]"
+      >
         <span className="text-purple-500 font-semibold">#1</span>
         <span className="ml-2 text-gray-700">
           Open Source Blogging Platform

@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+
 interface BlogCardProps {
   authorName: string;
   title: string;
@@ -12,25 +13,28 @@ export const BlogCard = ({
   title,
   content,
   publishedDate,
+  id,
 }: BlogCardProps) => {
   return (
-    <Link to={`/blog`}>
-      <div className="p-4 border-b border-slate-200 pb-4 w-screen shadow-md rounded-md max-w-screen-md cursor-pointer">
-        <div className="flex">
-          <Avatar name={authorName} />
-          <div className="font-extralight pl-2 text-sm flex justify-center flex-col">
-            {authorName}
-          </div>
-          <div className="flex justify-center flex-col pl-2  ">
-            <Circle />
-          </div>
-          <div className="pl-2 font-thin text-slate-500 text-sm flex justify-center flex-col">
-            {publishedDate}
+    <Link to={`/blog/${id}`}>
+      <div className="p-6 bg-white/80 border border-indigo-300 rounded-lg shadow-lg max-w-2xl w-full cursor-pointer hover:shadow-xl transition-shadow duration-300">
+        <div className="flex items-center mb-4">
+          <Avatar name={authorName} size="small" />
+          <div className="font-light text-gray-700 pl-4">
+            <div className="flex items-center">
+              <span>{authorName}</span>
+              <div className="flex items-center mx-2">
+                <Circle />
+              </div>
+              <span className="text-sm text-gray-500">{publishedDate}</span>
+            </div>
           </div>
         </div>
-        <div className="text-xl font-semibold pt-2">{title}</div>
-        <div className="text-md font-thin">{content.slice(0, 100) + "..."}</div>
-        <div className="text-slate-500 text-sm font-thin pt-4">
+        <div className="text-2xl font-semibold text-gray-900">{title}</div>
+        <div className="text-md text-gray-700 font-light mt-2">
+          {content.slice(0, 100) + "..."}
+        </div>
+        <div className="text-gray-500 text-sm font-light pt-4">
           {`${Math.ceil(content.length / 100)} min read`}
         </div>
       </div>
@@ -38,10 +42,12 @@ export const BlogCard = ({
   );
 };
 
+// Circle Component
 export function Circle() {
-  return <div className="h-1 w-1 rounded-full bg-slate-500"></div>;
+  return <div className="h-2 w-2 rounded-full bg-indigo-400"></div>;
 }
 
+// Avatar Component
 export function Avatar({
   name,
   size = "small",
@@ -49,18 +55,21 @@ export function Avatar({
   name: string;
   size?: "small" | "big";
 }) {
+  const avatarColors = ["bg-indigo-500", "bg-purple-600", "bg-blue-500"];
+  const bgColor = avatarColors[name.charCodeAt(0) % avatarColors.length]; // Randomize color
+
   return (
     <div
-      className={`relative inline-flex items-center justify-center overflow-hidden bg-gray-800 rounded-full ${
-        size === "small" ? "w-6 h-6" : "w-10 h-10"
-      }`}
+      className={`relative inline-flex items-center justify-center overflow-hidden rounded-full ${
+        size === "small" ? "w-8 h-8" : "w-12 h-12"
+      } ${bgColor}`}
     >
       <span
         className={`${
-          size === "small" ? "text-xs" : "text-md"
-        } font-extralight text-gray-800 dark:text-gray-300`}
+          size === "small" ? "text-sm" : "text-xl"
+        } font-semibold text-white`}
       >
-        {name[0]}
+        {name[0].toUpperCase()}
       </span>
     </div>
   );
