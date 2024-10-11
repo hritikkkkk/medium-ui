@@ -5,38 +5,38 @@ const reviews = [
   {
     name: "Emma",
     username: "@emma",
-    body: "This app has completely transformed my blogging experience. The interface is so intuitive and easy to use. I'm hooked!",
-    img: "https://thispersondoesnotexist.com/",
+    body: "This app has completely transformed my blogging experience.",
+    img: "https://picsum.photos/seed/emma/32",
   },
   {
     name: "Liam",
     username: "@liam",
-    body: "From drafting to publishing, every step feels effortless. My audience engagement has increased significantly since I started using this app.",
-    img: "https://thispersondoesnotexist.com/",
+    body: "From drafting to publishing, every step feels effortless.",
+    img: "https://picsum.photos/seed/liam/32",
   },
   {
     name: "Sophia",
     username: "@sophia",
-    body: "I never knew blogging could be this enjoyable! The minimalist design really helps me focus on my writing.",
-    img: "https://thispersondoesnotexist.com/",
+    body: "I never knew blogging could be this enjoyable!",
+    img: "https://picsum.photos/seed/sophia/32",
   },
   {
     name: "Mason",
     username: "@mason",
-    body: "The dark mode is perfect for late-night writing sessions. This app has everything a modern blogger needs.",
-    img: "https://thispersondoesnotexist.com/",
+    body: "The dark mode is perfect for late-night writing sessions.",
+    img: "https://picsum.photos/seed/mason/32",
   },
   {
     name: "Olivia",
     username: "@olivia",
-    body: "This app is hands down the best blogging platform I've tried. No ads, no distractions, just pure creativity!",
-    img: "https://thispersondoesnotexist.com/",
+    body: "This app is hands down the best blogging platform I've tried.",
+    img: "https://picsum.photos/seed/olivia/32",
   },
   {
     name: "Noah",
     username: "@noah",
-    body: "I love how customizable everything is! From fonts to themes, it feels like my personal writing space.",
-    img: "https://thispersondoesnotexist.com/",
+    body: "I love how customizable everything is!",
+    img: "https://picsum.photos/seed/noah/32",
   },
 ];
 
@@ -57,30 +57,34 @@ const ReviewCard = ({
   return (
     <figure
       className={cn(
-        "relative w-64 cursor-pointer overflow-hidden rounded-xl border p-4",
+        "relative w-64 cursor-pointer overflow-hidden rounded-xl border p-4 shadow-md transition-all duration-300 transform hover:scale-105",
         // light styles
-        "border-gray-950/[.1] bg-gray-950/[.01] hover:bg-gray-950/[.05]",
+        "border-gray-200 bg-white/70 hover:bg-white",
         // dark styles
-        "dark:border-gray-50/[.1] dark:bg-gray-50/[.10] dark:hover:bg-gray-50/[.15]"
+        "dark:border-gray-700 dark:bg-gray-800/80 dark:hover:bg-gray-800"
       )}
     >
-      <div className="flex flex-row items-center gap-2">
+      <div className="flex flex-row items-center gap-3">
         <img className="rounded-full" width="32" height="32" alt="" src={img} />
         <div className="flex flex-col">
-          <figcaption className="text-sm font-medium dark:text-white">
+          <figcaption className="text-base font-semibold text-blue-950 dark:text-gray-100">
             {name}
           </figcaption>
-          <p className="text-xs font-medium dark:text-white/40">{username}</p>
+          <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
+            {username}
+          </p>
         </div>
       </div>
-      <blockquote className="mt-2 text-sm">{body}</blockquote>
+      <blockquote className="mt-2 text-base text-gray-800 dark:text-gray-300">
+        {body}
+      </blockquote>
     </figure>
   );
 };
 
 export function Testimonials() {
   return (
-    <div className="relative flex h-[500px] w-full flex-col items-center justify-center overflow-hidden rounded-lg  pb-16">
+    <div className="relative flex h-[500px] w-full flex-col items-center justify-center overflow-hidden rounded-lg pb-16 bg-dotted-grid">
       <h2 className="text-center text-3xl md:text-5xl font-bold mb-8 text-gray-900 dark:text-gray-200">
         <span>Our</span>
         <span className="ml-2 bg-clip-text text-transparent bg-gradient-to-r from-green-400 via-green-500 to-green-600 dark:from-green-300 dark:via-green-400 dark:to-green-500">

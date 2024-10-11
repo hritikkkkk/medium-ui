@@ -1,31 +1,14 @@
 import { motion } from "framer-motion";
 import { CheckCircle } from "lucide-react";
-import { Header } from "./Landing";
-import { useNavigate } from "react-router-dom";
+import { Appbar } from "./Appbar";
 
 function Pricing() {
-  const navigate = useNavigate();
   function liClassNames() {
     return "flex items-center space-x-3";
   }
   return (
     <>
-      <Header
-        isAuthenticated={true}
-        searchQuery={""}
-        setSearchQuery={function (): void {
-          throw new Error("Function not implemented.");
-        }}
-        handleSearch={function (): void {
-          throw new Error("Function not implemented.");
-        }}
-        handleNavigation={function (path: string): void {
-          navigate(path);
-        }}
-        handleLogout={function (): void {
-          throw new Error("Function not implemented.");
-        }}
-      />
+      <Appbar />
       <section className="bg-white" id="pricing">
         <div className="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
           <div className="mx-auto max-w-screen-md text-center mb-8 lg:mb-12">
@@ -153,9 +136,7 @@ function Pricing() {
                 </li>
                 <li className={liClassNames()}>
                   <CheckCircle className="text-green-500" />
-                  <span>
-                  Share member-only stories
-                  </span>
+                  <span>Share member-only stories</span>
                 </li>
                 <li className={liClassNames()}>
                   <CheckCircle className="text-green-500" />

@@ -2,7 +2,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Signup } from "./pages/Signup";
 import { Signin } from "./pages/Signin";
 import { Toaster } from "react-hot-toast";
-import Landing from "./components/Landing";
+import Landing from "./pages/Landing";
 import { Membership } from "./pages/membership";
 import { PublishPage } from "./pages/publish";
 import { Blogs } from "./pages/Blogs";

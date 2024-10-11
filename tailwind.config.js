@@ -4,6 +4,20 @@ export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
+      keyframes: {
+        marquee: {
+          "0%": { transform: "translateX(100%)" },
+          "100%": { transform: "translateX(-100%)" },
+        },
+        "marquee-vertical": {
+          "0%": { transform: "translateY(100%)" },
+          "100%": { transform: "translateY(-100%)" },
+        },
+      },
+      animation: {
+        marquee: "marquee var(--duration) linear infinite",
+        "marquee-vertical": "marquee-vertical var(--duration) linear infinite",
+      },
       colors: {
         primary: {
           50: "#eff6ff",

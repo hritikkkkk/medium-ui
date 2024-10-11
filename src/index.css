@@ -28,3 +28,8 @@
     --radius: 0.5rem;
   }
 }
+.bg-dotted-grid {
+  background-color: whitesmoke;
+  background-image: radial-gradient(black 1px, transparent 1px);
+  background-size: 20px 20px; /* Adjust size for grid spacing */
+}
