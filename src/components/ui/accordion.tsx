@@ -46,7 +46,7 @@ export function Accordion({
 
   return (
     <AccordionContext.Provider value={{ openItems, toggleItem }}>
-      <div className={`space-y-1 ${className}`}>{children}</div>
+      <div className={` ${className}`}>{children}</div>
     </AccordionContext.Provider>
   );
 }
@@ -54,13 +54,15 @@ export function Accordion({
 export function AccordionItem({
   value,
   children,
+  className = '',
 }: {
   value: string;
-  children: React.ReactNode;
+    children: React.ReactNode;
+    className?: string;
 }) {
   return (
     <AccordionItemContext.Provider value={{ value }}>
-      <div>{children}</div>
+      <div className={`${className}`}>{children}</div>
     </AccordionItemContext.Provider>
   );
 }
@@ -86,7 +88,7 @@ export function AccordionTrigger({
 
   return (
     <button
-      className={`flex w-full items-center justify-between py-4 font-medium text-lg transition-all hover:underline ${className}`}
+      className={`flex w-full items-center justify-between  font-medium text-lg transition-all hover:underline ${className}`}
       onClick={() => toggleItem(value)}
       aria-expanded={isOpen}
     >

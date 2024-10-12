@@ -4,7 +4,7 @@ import { useSpring, animated } from "react-spring";
 import { useInView } from "react-intersection-observer";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Card, CardContent } from "./ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 
 export const TrendingSection: React.FC = () => {
   const [ref, inView] = useInView({

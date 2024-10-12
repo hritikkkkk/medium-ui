@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { BACKEND_URL } from "@/config";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { useNavigate } from "react-router-dom";
 import {
   DropdownMenu,
@@ -19,7 +18,6 @@ import {
   Trash2,
   Edit3,
   MoreHorizontal,
-  ChevronLeft,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "react-hot-toast";
@@ -179,17 +177,19 @@ export const PublishPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br  from-purple-100 to-indigo-50 text-gray-900">
-      <header className="border-b shadow-sm bg-white/100 sticky top-0 z-50">
-        <div className="max-w-5xl mx-auto px-4 py-6 flex items-center justify-between">
-          <h1 className="text-3xl font-bold text-indigo-900">
-            <a href="/">Medium</a>
+    <div className="min-h-screen bg-white text-gray-900 font-serif">
+      <header className="border-b shadow-sm bg-white sticky top-0 z-50">
+        <div className="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
+          <h1 className="text-3xl font-extrabold text-gray-900">
+            <a href="/" className="hover:text-gray-700 transition-colors">
+              Medium
+            </a>
           </h1>
           <div className="flex items-center space-x-4">
             <Button
               onClick={() => setShowSidebar(!showSidebar)}
               variant="outline"
-              className="px-4 py-2 text-indigo-600 border-indigo-600 hover:bg-indigo-50 rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-colors duration-200"
+              className="px-4 py-2 text-gray-700 border-gray-300 hover:bg-gray-50 rounded-full focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-colors duration-200"
             >
               {showSidebar ? "Hide Articles" : "Published Articles"}
             </Button>
@@ -206,7 +206,7 @@ export const PublishPage: React.FC = () => {
                 onClick={handlePublish}
                 disabled={isPublishing}
                 variant="default"
-                className="px-6 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 transition-colors duration-200"
+                className="px-6 py-2 bg-black hover:bg-gray-800 text-white rounded-full focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 disabled:opacity-50 transition-colors duration-200"
               >
                 {isPublishing ? "Publishing..." : "Publish"}
               </Button>
@@ -215,28 +215,33 @@ export const PublishPage: React.FC = () => {
         </div>
       </header>
 
-      <main className="max-w-5xl mx-auto px-4 py-8 flex">
+      <main className="max-w-4xl mx-auto px-4 py-8 flex">
         <div className="flex-grow mr-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="mb-8 bg-white rounded-lg shadow-md p-6"
+            className="mb-8"
           >
-            <Input
-              type="text"
+            <textarea
               placeholder="Title"
               value={title}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
                 setTitle(e.target.value)
               }
-              className="text-4xl font-semibold border-none placeholder:text-gray-400 focus:ring-0 focus:outline-none w-full mb-4"
+              rows={1}
+              className="text-5xl font-bold border-none placeholder:text-gray-300 focus:ring-0 focus:outline-none w-full mb-4 resize-none overflow-hidden"
+              style={{ lineHeight: "1.2em", height: "auto" }}
+              onInput={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
+                e.target.style.height = "auto";
+                e.target.style.height = `${e.target.scrollHeight}px`;
+              }}
             />
             <div className="my-4 flex space-x-2">
               {[Bold, Italic, List, ImageIcon, Link].map((Icon, index) => (
                 <button
                   key={index}
-                  className="p-2 text-gray-500 hover:text-indigo-600 focus:outline-none transition-colors duration-200"
+                  className="p-2 text-gray-400 hover:text-gray-600 focus:outline-none transition-colors duration-200"
                 >
                   <Icon size={20} />
                 </button>
@@ -249,7 +254,7 @@ export const PublishPage: React.FC = () => {
                 setContent(e.target.value)
               }
               rows={12}
-              className="w-full text-xl font-medium font-sans border-none placeholder:text-gray-400 focus:ring-0 focus:outline-none text-gray-800 focus:ring-indigo-500"
+              className="w-full text-xl font-normal font-serif border-none placeholder:text-gray-300 focus:ring-0 focus:outline-none text-gray-800 leading-relaxed"
             />
             {isEditing && (
               <div className="mt-4 flex justify-end">
@@ -274,31 +279,21 @@ export const PublishPage: React.FC = () => {
               transition={{ type: "spring", stiffness: 300, damping: 30 }}
               className="w-80 bg-white shadow-lg fixed right-0 top-0 bottom-0 p-6 overflow-y-auto"
             >
-              <div className="flex items-center w-full mb-8 justify-between sticky top-0 bg-white py-4 z-10">
-                <button
-                  onClick={() => setShowSidebar(false)}
-                  className="text-indigo-600 hover:bg-indigo-50 rounded-full"
-                >
-                  <ChevronLeft size={28} />
-                </button>
-                <h2 className="text-2xl font-semibold text-indigo-900">
-                  Published Articles
-                </h2>
-              </div>
+              <div className="flex items-center w-full mb-8 justify-between sticky top-0 bg-white py-4 z-10"></div>
               {isLoading ? (
-                <p>Loading stories...</p>
+                <p className="text-gray-600">Loading stories...</p>
               ) : error ? (
                 <p className="text-red-500">{error}</p>
               ) : publishedArticles.length === 0 ? (
-                <p>No stories published yet.</p>
+                <p className="text-gray-600">No stories published yet.</p>
               ) : (
                 <AnimatePresence>
                   {publishedArticles.map((article) => (
                     <motion.div
                       key={article.id}
-                      className="p-4 mb-4 bg-gray-100 hover:bg-indigo-50 transition rounded-xl cursor-pointer"
+                      className="p-4 mb-4 hover:bg-gray-50 transition rounded-xl cursor-pointer"
                     >
-                      <div className="flex items-center justify-between mb-2 ">
+                      <div className="flex items-center justify-between mb-2">
                         <div className="flex items-center space-x-3">
                           <div>
                             <p className="text-xs text-gray-500">
@@ -360,7 +355,7 @@ export const PublishPage: React.FC = () => {
                         </DropdownMenu>
                       </div>
                       <div onClick={() => navigateToBlogPage(article.id)}>
-                        <h3 className="text-lg font-bold mb-1  text-indigo-700">
+                        <h3 className="text-xl font-bold mb-1 text-gray-900 hover:underline">
                           {article.title}
                         </h3>
                         <p className="text-gray-600 text-sm line-clamp-2">
