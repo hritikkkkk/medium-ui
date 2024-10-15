@@ -6,8 +6,15 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { BACKEND_URL } from "@/config";
-import {  ArrowLeft } from "lucide-react";
+import { ArrowLeft, MessageCircle } from "lucide-react";
 import { jwtDecode } from "jwt-decode";
+import { Sidebar } from "@/components/Sidebar";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 interface DecodedToken {
   id: string;
 }
@@ -22,6 +29,15 @@ interface BlogPost {
   createdAt: string;
 }
 
+interface Comment {
+  id: string;
+  content: string;
+  user: {
+    name: string;
+  };
+  createdAt: string;
+}
+
 export const FullBlogPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const [blog, setBlog] = useState<BlogPost | null>(null);
@@ -29,6 +45,9 @@ export const FullBlogPage: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [likes, setLikes] = useState<number>(0);
   const [hasLiked, setHasLiked] = useState<boolean>(false);
+  const [isCommentSidebarOpen, setIsCommentSidebarOpen] = useState(false); // New state
+  const [comments, setComments] = useState<Comment[]>([]); // New state
+  const [newComment, setNewComment] = useState(""); // New state for new comment
 
   const token = localStorage.getItem("token");
 
@@ -92,6 +111,34 @@ export const FullBlogPage: React.FC = () => {
       }
     } catch (err) {
       console.error("Failed to toggle like:", err);
+    }
+  };
+
+  const fetchComments = async () => {
+    try {
+      const response = await axios.get(`${BACKEND_URL}/api/v1/${id}/comments`, {
+        headers: { Authorization: localStorage.getItem("token") },
+      });
+      setComments(response.data.comments);
+    } catch (err) {
+      console.error("Failed to fetch comments:", err);
+    }
+  };
+
+  const handleCommentSubmit = async () => {
+    if (!newComment.trim()) return;
+    try {
+      await axios.post(
+        `${BACKEND_URL}/api/v1/${id}/comment`,
+        { content: newComment },
+        {
+          headers: { Authorization: localStorage.getItem("token") },
+        }
+      );
+      setNewComment("");
+      fetchComments();
+    } catch (err) {
+      console.error("Failed to post comment:", err);
     }
   };
 
@@ -173,21 +220,8 @@ export const FullBlogPage: React.FC = () => {
       <motion.div
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ delay: 0.4 }}
-        className="prose prose-lg max-w-none text-gray-800 mb-8"
-      >
-        {blog.content.split("\n").map((paragraph, index) => (
-          <p key={index} className="mb-4">
-            {paragraph}
-          </p>
-        ))}
-      </motion.div>
-
-      <motion.div
-        initial={{ y: 20, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.5 }}
-        className="flex items-center justify-between border-t border-b py-4 border-gray-300"
+        className="flex items-center justify-between border-t border-b py-3 border-gray-200"
       >
         <div className="flex items-center space-x-4">
           <Button
@@ -198,24 +232,121 @@ export const FullBlogPage: React.FC = () => {
             }`}
             onClick={toggleLike}
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill={hasLiked ? "currentColor" : "none"}
-              stroke="currentColor"
-              className="mr-2 h-10 w-10"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M12 22a5 5 0 005-5H7a5 5 0 005 5zM16.5 7.5l-4.5-4.5-4.5 4.5M12 11.5v3"
-              />
-            </svg>
-            {likes} claps
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    className="h-6 w-6 mr-2"
+                  >
+                    <path
+                      d={
+                        hasLiked
+                          ? "M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
+                          : "M16.5 3c-1.74 0-3.41.81-4.5 2.09C10.91 3.81 9.24 3 7.5 3 4.42 3 2 5.42 2 8.5c0 3.78 3.4 6.86 8.55 11.54L12 21.35l1.45-1.32C18.6 15.36 22 12.28 22 8.5 22 5.42 19.58 3 16.5 3z"
+                      }
+                    />
+                  </svg>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p> {hasLiked ? "Unlike" : "Like"}</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+            {likes}
+          </Button>
+          <Button
+            variant="ghost"
+            size="sm"
+            className="text-indigo-500 flex items-center"
+            onClick={() => {
+              setIsCommentSidebarOpen(true);
+              fetchComments();
+            }}
+          >
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger>
+                  <MessageCircle />
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Comment</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
           </Button>
         </div>
       </motion.div>
+
+      <motion.div
+        initial={{ y: 20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ delay: 0.4 }}
+        className="prose prose-lg max-w-none text-gray-800 mb-8"
+      >
+        {blog.content.split("\n").map((paragraph, index) => (
+          <p key={index} className="mb-4">
+            {paragraph}
+          </p>
+        ))}
+      </motion.div>
+
+      {isCommentSidebarOpen && (
+        <Sidebar
+          isOpen={isCommentSidebarOpen}
+          onClose={() => setIsCommentSidebarOpen(false)}
+        >
+          <div className="p-4">
+            <h3 className="text-2xl  text-gray-900 font-semibold mb-4">
+              Responses
+            </h3>
+            <div className="mb-4">
+              {comments.length ? (
+                comments.map((comment) => (
+                  <div
+                    key={comment.id}
+                    className="mb-4 border-b pb-2 bg-zinc-50"
+                  >
+                    <p className="font-semibold text-indigo-800">
+                      {comment.user.name}
+                    </p>
+                    <p className="text-sm text-gray-400 mb-2">
+                      {new Date(comment.createdAt).toLocaleString()}
+                    </p>
+                    <p className="text-lg font-sans text-gray-700">
+                      {comment.content}
+                    </p>
+                  </div>
+                ))
+              ) : (
+                <p>
+                  There are currently no responses for this story. Be the first
+                  to respond.
+                </p>
+              )}
+            </div>
+
+            <div className="flex flex-col">
+              <textarea
+                className="border rounded text-xl text-gray-700 border-gray-300 font-sans font-medium p-2 mb-2"
+                placeholder="what're your thoughts..."
+                rows={4}
+                value={newComment}
+                onChange={(e) => setNewComment(e.target.value)}
+              />
+              <Button
+                className="self-end"
+                onClick={handleCommentSubmit}
+                disabled={!newComment.trim()}
+              >
+                Respond
+              </Button>
+            </div>
+          </div>
+        </Sidebar>
+      )}
     </motion.div>
   );
 };
