@@ -6,13 +6,11 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { BACKEND_URL } from "@/config";
-import {
-  Heart,
-  MessageCircle,
-  Share2,
-  Bookmark,
-  ArrowLeft,
-} from "lucide-react";
+import {  ArrowLeft } from "lucide-react";
+import { jwtDecode } from "jwt-decode";
+interface DecodedToken {
+  id: string;
+}
 
 interface BlogPost {
   id: string;
@@ -29,6 +27,20 @@ export const FullBlogPage: React.FC = () => {
   const [blog, setBlog] = useState<BlogPost | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [likes, setLikes] = useState<number>(0);
+  const [hasLiked, setHasLiked] = useState<boolean>(false);
+
+  const token = localStorage.getItem("token");
+
+  let userId: string | null = null;
+  if (token) {
+    try {
+      const decoded = jwtDecode<DecodedToken>(token);
+      userId = decoded.id;
+    } catch (error) {
+      console.error("Failed to decode token:", error);
+    }
+  }
 
   useEffect(() => {
     const fetchBlog = async () => {
@@ -39,15 +51,49 @@ export const FullBlogPage: React.FC = () => {
           { headers: { Authorization: localStorage.getItem("token") || "" } }
         );
         setBlog(response.data);
+
+        const likesResponse = await axios.get(
+          `${BACKEND_URL}/api/v1/${id}/likes`,
+          {
+            headers: { Authorization: localStorage.getItem("token") },
+          }
+        );
+        setLikes(likesResponse.data.likes.length);
+        setHasLiked(
+          likesResponse.data.likes.some(
+            (like: { userId: string }) => like.userId === userId
+          )
+        );
       } catch (err) {
-        setError("Failed to load the blog post. Please try again later.");
+        setError("Failed to load the blog post or likes.");
       } finally {
         setIsLoading(false);
       }
     };
 
     fetchBlog();
-  }, [id]);
+  }, [id, userId]);
+
+  const toggleLike = async () => {
+    try {
+      const response = await axios.post(
+        `${BACKEND_URL}/api/v1/${id}/toggle-like`,
+        {},
+        {
+          headers: { Authorization: localStorage.getItem("token") },
+        }
+      );
+      if (response.data.message === "Post liked") {
+        setLikes((prev) => prev + 1);
+        setHasLiked(true);
+      } else if (response.data.message === "Post unliked") {
+        setLikes((prev) => prev - 1);
+        setHasLiked(false);
+      }
+    } catch (err) {
+      console.error("Failed to toggle like:", err);
+    }
+  };
 
   if (isLoading) {
     return (
@@ -147,26 +193,26 @@ export const FullBlogPage: React.FC = () => {
           <Button
             variant="ghost"
             size="sm"
-            className="flex items-center text-indigo-500"
+            className={`flex items-center text-base ${
+              hasLiked ? "text-red-500" : "text-indigo-500"
+            }`}
+            onClick={toggleLike}
           >
-            <Heart className="mr-2 h-5 w-5" />
-            10
-          </Button>
-          <Button
-            variant="ghost"
-            size="sm"
-            className="flex items-center text-indigo-500"
-          >
-            <MessageCircle className="mr-2 h-5 w-5" />
-            Comments
-          </Button>
-        </div>
-        <div className="flex items-center space-x-4">
-          <Button variant="ghost" size="sm" className="text-indigo-500">
-            <Share2 className="h-5 w-5" />
-          </Button>
-          <Button variant="ghost" size="sm" className="text-indigo-500">
-            <Bookmark className="h-5 w-5" />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill={hasLiked ? "currentColor" : "none"}
+              stroke="currentColor"
+              className="mr-2 h-10 w-10"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M12 22a5 5 0 005-5H7a5 5 0 005 5zM16.5 7.5l-4.5-4.5-4.5 4.5M12 11.5v3"
+              />
+            </svg>
+            {likes} claps
           </Button>
         </div>
       </motion.div>
