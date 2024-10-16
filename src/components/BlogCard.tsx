@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import ArticleContent from "./ArticleContent";
 
 interface BlogCardProps {
   authorName: string;
@@ -32,7 +33,7 @@ export const BlogCard = ({
         </div>
         <div className="text-2xl font-semibold text-gray-900">{title}</div>
         <div className="text-md text-gray-700 font-light mt-2">
-          {content.slice(0, 100) + "..."}
+          <ArticleContent content={content.slice(0, 100) + "..."} />
         </div>
         <div className="text-gray-500 text-sm font-light pt-4">
           {`${Math.ceil(content.length / 100)} min read`}

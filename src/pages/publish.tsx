@@ -9,16 +9,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import {
-  Bold,
-  Italic,
-  List,
-  Image as ImageIcon,
-  Link,
-  Trash2,
-  Edit3,
-  MoreHorizontal,
-} from "lucide-react";
+import { Trash2, Edit3, MoreHorizontal } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "react-hot-toast";
 import {
@@ -32,6 +23,9 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
+import ArticleContent from "@/components/ArticleContent";
 
 interface Article {
   id: string;
@@ -226,9 +220,7 @@ export const PublishPage: React.FC = () => {
             <textarea
               placeholder="Title"
               value={title}
-              onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
-                setTitle(e.target.value)
-              }
+              onChange={(e) => setTitle(e.target.value)}
               rows={1}
               className="text-5xl font-bold border-none placeholder:text-gray-300 focus:ring-0 focus:outline-none w-full mb-4 resize-none overflow-hidden"
               style={{ lineHeight: "1.2em", height: "auto" }}
@@ -237,24 +229,26 @@ export const PublishPage: React.FC = () => {
                 e.target.style.height = `${e.target.scrollHeight}px`;
               }}
             />
-            <div className="my-4 flex space-x-2">
-              {[Bold, Italic, List, ImageIcon, Link].map((Icon, index) => (
-                <button
-                  key={index}
-                  className="p-2 text-gray-400 hover:text-gray-600 focus:outline-none transition-colors duration-200"
-                >
-                  <Icon size={20} />
-                </button>
-              ))}
-            </div>
-            <textarea
-              placeholder="Tell your story..."
+
+            <ReactQuill
               value={content}
-              onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
-                setContent(e.target.value)
-              }
-              rows={12}
-              className="w-full text-xl font-normal font-serif border-none placeholder:text-gray-300 focus:ring-0 focus:outline-none text-gray-800 leading-relaxed"
+              onChange={setContent}
+              className="h-96 mb-4"
+              theme="snow"
+              placeholder="Tell your story..."
+              modules={{
+                toolbar: [
+                  [{ header: [1, 2, 3, 4, 5, 6, false] }],
+                  [{ font: [] }],
+                  [{ list: "ordered" }, { list: "bullet" }],
+                  ["bold", "italic", "underline"],
+                  [{ color: [] }, { background: [] }],
+                  [{ script: "sub" }, { script: "super" }],
+                  [{ align: [] }],
+                  ["image", "blockquote", "code-block"],
+                  ["clean"],
+                ],
+              }}
             />
             {isEditing && (
               <div className="mt-4 flex justify-end">
@@ -359,7 +353,7 @@ export const PublishPage: React.FC = () => {
                           {article.title}
                         </h3>
                         <p className="text-gray-600 text-sm line-clamp-2">
-                          {article.content}
+                          <ArticleContent content={article.content} />
                         </p>
                       </div>
                     </motion.div>

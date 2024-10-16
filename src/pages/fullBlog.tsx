@@ -15,6 +15,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import ArticleContent from "@/components/ArticleContent";
 interface DecodedToken {
   id: string;
 }
@@ -228,7 +229,9 @@ export const FullBlogPage: React.FC = () => {
             variant="ghost"
             size="sm"
             className={`flex items-center text-base ${
-              hasLiked ? "text-red-500 hover:text-indigo-500" : "text-indigo-500 hover:text-red-500"
+              hasLiked
+                ? "text-red-500 hover:text-indigo-500"
+                : "text-indigo-500 hover:text-red-500"
             }`}
             onClick={toggleLike}
           >
@@ -288,7 +291,7 @@ export const FullBlogPage: React.FC = () => {
       >
         {blog.content.split("\n").map((paragraph, index) => (
           <p key={index} className="mb-4">
-            {paragraph}
+            <ArticleContent content={paragraph} />
           </p>
         ))}
       </motion.div>
