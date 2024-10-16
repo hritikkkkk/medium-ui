@@ -228,7 +228,7 @@ export const FullBlogPage: React.FC = () => {
             variant="ghost"
             size="sm"
             className={`flex items-center text-base ${
-              hasLiked ? "text-red-500" : "text-indigo-500"
+              hasLiked ? "text-red-500 hover:text-indigo-500" : "text-indigo-500 hover:text-red-500"
             }`}
             onClick={toggleLike}
           >
