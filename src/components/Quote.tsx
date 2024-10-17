@@ -21,7 +21,11 @@ export default function Quote(): React.ReactElement {
     setError(null);
 
     try {
-      const response = await axios.get<QuoteData>(apiUrl);
+      const response = await axios.get<QuoteData>(apiUrl, {
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        },
+      });
       setQuote(response.data.content);
       setAuthor(response.data.author);
     } catch (err) {
