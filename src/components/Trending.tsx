@@ -28,13 +28,13 @@ export const TrendingSection: React.FC = () => {
   return (
     <section
       ref={ref}
-      className={`${backgroundColors[activeTab]} transition-colors duration-500 py-16`}
+      className={`${backgroundColors[activeTab]} transition-colors duration-500 p-10 rounded-xl m-10`}
     >
       <animated.div
         style={containerAnimation}
         className="container mx-auto px-4"
       >
-        <h2 className="text-4xl font-bold text-center text-white mb-12">
+        <h2 className="text-4xl font-bold text-center text-white/80 mb-12">
           Trending on Medium
         </h2>
         <Tabs

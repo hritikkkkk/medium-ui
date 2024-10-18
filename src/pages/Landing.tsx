@@ -40,7 +40,7 @@ export default function PremiumMediumLanding() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 font-sans">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 font-sans">
       <Header
         isAuthenticated={isAuthenticated}
         searchQuery={searchQuery}
