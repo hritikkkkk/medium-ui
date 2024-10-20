@@ -47,7 +47,7 @@ export default function Quote(): React.ReactElement {
   }, [fetchQuote]);
 
   return (
-    <div className="bg-gradient-to-r from-purple-400 to-indigo-500 min-h-screen flex justify-center items-center p-4">
+    <div className="bg-white min-h-screen flex justify-center items-center p-4">
       <div className="max-w-lg text-center">
         <AnimatePresence mode="wait">
           {isLoading ? (
@@ -79,13 +79,13 @@ export default function Quote(): React.ReactElement {
               transition={{ duration: 0.5 }}
             >
               <motion.div
-                className="text-2xl font-bold text-white mb-4"
+                className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-violet-500  mb-4"
                 aria-live="polite"
               >
                 "{quote}"
               </motion.div>
               <motion.div
-                className="text-lg font-bold font-sans text-slate-900"
+                className="text-lg font-bold font-sans text-gray-600"
                 aria-live="polite"
               >
                 {author}

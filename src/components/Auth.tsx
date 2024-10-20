@@ -43,7 +43,7 @@ export const Auth = ({ type }: { type: "signup" | "signin" }) => {
                 <FontAwesomeIcon icon={faMedium} beatFade />
               )}
             </div>
-            <div className="text-3xl font-extrabold  ">
+            <div className="text-3xl font-extrabold text-gray-800  ">
               {type === "signup" ? `Create an account` : `Welcome Back!`}
             </div>
           </div>
@@ -85,7 +85,7 @@ export const Auth = ({ type }: { type: "signup" | "signin" }) => {
             <button
               onClick={sendRequest}
               type="button"
-              className="mt-8 w-full text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700"
+              className="mt-8 w-full text-white  bg-gradient-to-r from-pink-500 to-violet-500 focus:outline-none focus:ring-4 focus:ring-gray-300  rounded-lg text-base font-semibold px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700"
             >
               {type === "signup" ? "Sign up" : "Sign in"}
             </button>
@@ -122,14 +122,14 @@ function LabelledInput({
 }: LabelledInputType) {
   return (
     <div>
-      <label className="block mb-2 text-sm text-black font-semibold pt-4">
+      <label className="block mb-2 text-lg text-gray-800 font-semibold pt-4">
         {label}
       </label>
       <input
         onChange={onChange}
         type={type || "text"}
         id="first_name"
-        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+        className="bg-gray-50 border border-gray-300 text-gray-600 text-base font-semibold rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
         placeholder={placeholder}
         required
       />
