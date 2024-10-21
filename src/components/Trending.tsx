@@ -28,7 +28,7 @@ export const TrendingSection: React.FC = () => {
   return (
     <section
       ref={ref}
-      className={`${backgroundColors[activeTab]} transition-colors duration-500 p-10 rounded-xl m-10`}
+      className={`${backgroundColors[activeTab]} transition-colors duration-500 p-10 rounded-xl m-0 md:m-10`}
     >
       <animated.div
         style={containerAnimation}

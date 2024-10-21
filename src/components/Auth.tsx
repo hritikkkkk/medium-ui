@@ -13,7 +13,7 @@ export const Auth = ({ type }: { type: "signup" | "signin" }) => {
     name: "",
     email: "",
     password: "",
-    });
+  });
 
   async function sendRequest() {
     try {
@@ -23,7 +23,7 @@ export const Auth = ({ type }: { type: "signup" | "signin" }) => {
       );
       const jwt = response.data;
       localStorage.setItem("token", `Bearer ${jwt}`);
-      toast.success("Login successful!")
+      toast.success("Login successful!");
       navigate("/blog");
     } catch (e) {
       console.log(e);
@@ -36,15 +36,15 @@ export const Auth = ({ type }: { type: "signup" | "signin" }) => {
       <div className="flex justify-center">
         <div>
           <div className="px-10 text-center">
-            <div className="fa-2xl  ">
+            <div className="fa-2xl text-gray-700  ">
               {type === "signin" ? (
                 <FontAwesomeIcon icon={faMedium} bounce />
               ) : (
                 <FontAwesomeIcon icon={faMedium} beatFade />
               )}
             </div>
-            <div className="text-3xl font-extrabold text-gray-800  ">
-              {type === "signup" ? `Create an account` : `Welcome Back!`}
+            <div className="text-2xl font-sans text-gray-500 font-semibold  ">
+              {type === "signup" ? `Create an account` : `Login with medium`}
             </div>
           </div>
 
