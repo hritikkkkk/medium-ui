@@ -16,6 +16,8 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import ArticleContent from "@/components/ArticleContent";
+import CommentCard from "@/components/commentCard";
+
 interface DecodedToken {
   id: string;
 }
@@ -46,9 +48,8 @@ export const FullBlogPage: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [likes, setLikes] = useState<number>(0);
   const [hasLiked, setHasLiked] = useState<boolean>(false);
-  const [isCommentSidebarOpen, setIsCommentSidebarOpen] = useState(false); // New state
-  const [comments, setComments] = useState<Comment[]>([]); // New state
-  const [newComment, setNewComment] = useState(""); // New state for new comment
+  const [isCommentSidebarOpen, setIsCommentSidebarOpen] = useState(false);
+  const [comments, setComments] = useState<Comment[]>([]);
 
   const token = localStorage.getItem("token");
 
@@ -123,23 +124,6 @@ export const FullBlogPage: React.FC = () => {
       setComments(response.data.comments);
     } catch (err) {
       console.error("Failed to fetch comments:", err);
-    }
-  };
-
-  const handleCommentSubmit = async () => {
-    if (!newComment.trim()) return;
-    try {
-      await axios.post(
-        `${BACKEND_URL}/api/v1/${id}/comment`,
-        { content: newComment },
-        {
-          headers: { Authorization: localStorage.getItem("token") },
-        }
-      );
-      setNewComment("");
-      fetchComments();
-    } catch (err) {
-      console.error("Failed to post comment:", err);
     }
   };
 
@@ -303,8 +287,9 @@ export const FullBlogPage: React.FC = () => {
         >
           <div className="p-4">
             <h3 className="text-2xl  text-gray-900 font-semibold mb-4">
-              Responses
+              Responses({comments.length})
             </h3>
+            <CommentCard id={blog.id} onCommentPosted={fetchComments} />
             <div className="mb-4">
               {comments.length ? (
                 comments.map((comment) => (
@@ -329,23 +314,6 @@ export const FullBlogPage: React.FC = () => {
                   to respond.
                 </p>
               )}
-            </div>
-
-            <div className="flex flex-col">
-              <textarea
-                className="border rounded text-xl text-gray-700 border-gray-300 font-sans font-medium p-2 mb-2"
-                placeholder="what're your thoughts..."
-                rows={4}
-                value={newComment}
-                onChange={(e) => setNewComment(e.target.value)}
-              />
-              <Button
-                className="self-end"
-                onClick={handleCommentSubmit}
-                disabled={!newComment.trim()}
-              >
-                Respond
-              </Button>
             </div>
           </div>
         </Sidebar>
