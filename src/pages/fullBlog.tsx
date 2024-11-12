@@ -301,12 +301,12 @@ export const FullBlogPage: React.FC = () => {
                       className="mb-4 border-b pb-2 bg-zinc-50"
                     >
                       <p className="font-semibold text-indigo-800">
-                        {comment.user.name}
+                        {comment.user.name ? comment.user.name : "Anonymous"}
                       </p>
                       <p className="text-sm text-gray-400 mb-2">
                         {new Date(comment.createdAt).toLocaleString()}
                       </p>
-                      <p className="text-lg font-sans text-gray-700">
+                      <p className="text-lg font-sans text-gray-700 m-2">
                         {comment.content}
                       </p>
                     </div>

@@ -3,6 +3,8 @@ import { Github, Linkedin, Twitter, Mail } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import toast from "react-hot-toast";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMedium } from "@fortawesome/free-brands-svg-icons";
 
 export default function Footer() {
   const [email, setEmail] = React.useState("");
@@ -17,11 +19,13 @@ export default function Footer() {
   };
 
   return (
-    <footer className="bg-[#4A0E4E] text-white py-12">
+    <footer className=" bg-gradient-to-br from-indigo-800 to-indigo-950 text-white p-7 m-10 rounded-3xl">
       <div className="container mx-auto px-4">
         <div className="grid md:grid-cols-5 gap-8">
+
           <div className="md:col-span-2">
-            <h3 className="text-lg font-semibold mb-2">Stay Connected</h3>
+            <FontAwesomeIcon icon={faMedium} className="mb-3 text-indigo-200 fa-3x " /> 
+            <h1 className="text-lg font-semibold mb-2">Stay Connected</h1>
             <form
               onSubmit={handleNewsletterSubmit}
               className="flex items-center"
