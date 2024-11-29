@@ -19,7 +19,7 @@ export default function Footer() {
   };
 
   return (
-    <footer className=" bg-gradient-to-br from-indigo-800 to-indigo-950 text-white p-7 m-10 rounded-3xl">
+    <footer className=" bg-gradient-to-br from-indigo-800 to-indigo-950 text-white p-7 m-1 md:m-10 rounded-3xl">
       <div className="container mx-auto px-4">
         <div className="grid md:grid-cols-5 gap-8">
 
